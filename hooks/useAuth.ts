@@ -104,6 +104,28 @@ export function useVerifyEmail() {
   });
 }
 
+export function useOAuthExchange() {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: authApi.exchangeOAuthCode,
+    onSuccess: (res) => {
+      if (res.data.mfaRequired) {
+        toast.info("MFA required. Please enter your code.");
+        router.push("/mfa");
+        return;
+      }
+
+      toast.success("Logged in successfully!");
+      router.push("/");
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+      router.push("/login");
+    },
+  });
+}
+
 export function useLogout() {
   const clearUser = useAuthStore((s) => s.clearUser);
   const router = useRouter();

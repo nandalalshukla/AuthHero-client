@@ -76,4 +76,23 @@ export const authApi = {
     const res = await api.post<{ message: string }>("/auth/logout-all");
     return res.data;
   },
+
+  // ─── OAuth ───
+  // Exchange the one-time code from the OAuth redirect for real tokens.
+  // The backend consumes (deletes) the code on first use.
+  exchangeOAuthCode: async (code: string) => {
+    const res = await api.post<OAuthExchangeResponse>("/auth/oauth/exchange", {
+      code,
+    });
+    return res.data;
+  },
 } as const;
+
+// ─── OAuth exchange response ───
+export interface OAuthExchangeResponse {
+  success: boolean;
+  message: string;
+  data:
+    | { mfaRequired: false; accessToken: string }
+    | { mfaRequired: true; tempToken: string };
+}
