@@ -29,8 +29,7 @@ export function useRegister() {
     mutationFn: authApi.register,
     onSuccess: () => {
       toast.success("Account created! Check your email to verify.");
-      // Optionally redirect to a "check your email" page
-      router.push("/login");
+      router.push("/verify-email");
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));
@@ -92,13 +91,12 @@ export function useResetPassword() {
 }
 
 export function useVerifyEmail() {
-  const router = useRouter();
-
   return useMutation({
     mutationFn: authApi.verifyEmail,
     onSuccess: () => {
       toast.success("Email verified! You can now log in.");
-      router.push("/login");
+      // No auto-redirect — the verify-email page shows a success screen
+      // with a "Go to Login" button so the user sees confirmation.
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));
