@@ -39,12 +39,11 @@ export function useRegister() {
 
 export function useLogin() {
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _setUser = useAuthStore((s) => s.setUser);
+  const { setUser, setToken } = useAuthStore();
 
   return useMutation({
     mutationFn: authApi.login,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data.mfaRequired) {
         // MFA flow — redirect to MFA page with temp token
         toast.info("MFA required. Please enter your code.");
@@ -53,9 +52,16 @@ export function useLogin() {
       }
 
       // Normal login — server sets httpOnly cookies for tokens.
-      // TODO: call a /me endpoint and then _setUser(user) to populate the store.
-      toast.success("Logged in successfully!");
-      router.push("/");
+      try {
+        setToken(data.accessToken); // Save token for requests
+        const user = await authApi.getMe();
+        setUser(user);
+        toast.success("Logged in successfully!");
+        router.push("/");
+      } catch (error) {
+        console.error("Failed to fetch user details", error);
+        toast.error("Login succeeded but failed to fetch user details.");
+      }
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));
@@ -127,19 +133,19 @@ export function useOAuthExchange() {
 }
 
 export function useLogout() {
-  const clearUser = useAuthStore((s) => s.clearUser);
+  const clearAuth = useAuthStore((s) => s.clearAuth);
   const router = useRouter();
 
   return useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
-      clearUser();
+      clearAuth();
       toast.success("Logged out.");
       router.push("/login");
     },
     onError: (error) => {
       // Even if the API fails, clear local state
-      clearUser();
+      clearAuth();
       toast.error(getErrorMessage(error));
       router.push("/login");
     },

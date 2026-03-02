@@ -9,22 +9,27 @@ import type { PublicUser } from "@/types/auth.types";
 
 interface AuthState {
   user: PublicUser | null;
+  accessToken: string | null;
   isAuthenticated: boolean;
 }
 
 interface AuthActions {
   setUser: (user: PublicUser) => void;
-  clearUser: () => void;
+  setToken: (token: string) => void;
+  clearAuth: () => void;
 }
 
 export const useAuthStore = create<AuthState & AuthActions>()(
   persist(
     (set) => ({
       user: null,
+      accessToken: null,
       isAuthenticated: false,
 
       setUser: (user) => set({ user, isAuthenticated: true }),
-      clearUser: () => set({ user: null, isAuthenticated: false }),
+      setToken: (accessToken) => set({ accessToken }),
+      clearAuth: () =>
+        set({ user: null, accessToken: null, isAuthenticated: false }),
     }),
     {
       name: "auth-storage", // localStorage key (matches your axios interceptor)

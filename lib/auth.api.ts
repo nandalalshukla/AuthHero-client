@@ -4,6 +4,7 @@ import type {
   LoginResponse,
   LoginMFAResponse,
   RefreshResponse,
+  PublicUser,
 } from "@/types/auth.types";
 import type {
   RegisterInput,
@@ -31,6 +32,11 @@ export const authApi = {
       data,
     );
     return res.data;
+  },
+
+  getMe: async () => {
+    const res = await api.get<{ data: PublicUser }>("/auth/me");
+    return res.data.data;
   },
 
   forgotPassword: async (data: ForgotPasswordInput) => {

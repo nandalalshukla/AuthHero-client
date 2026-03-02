@@ -2,9 +2,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useAuthStore } from "@/stores/auth.store";
+import { useLogout } from "@/hooks/useAuth";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
+  const { user, isAuthenticated } = useAuthStore();
+  const { mutate: logout } = useLogout();
 
   const handleNav = () => {
     setNav(!nav);
@@ -22,22 +26,38 @@ const Navbar = () => {
           <li className="p-4 hover:text-gray-400 cursor-pointer">
             <Link href="/">Home</Link>
           </li>
-          <li>
-            <Link
-              href="/login"
-              className="px-5 py-2 rounded-full border border-white hover:bg-white hover:text-black transition duration-300"
-            >
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/register"
-              className="px-5 py-2 rounded-full bg-white text-black font-medium hover:bg-gray-200 transition duration-300"
-            >
-              Signup
-            </Link>
-          </li>
+          {isAuthenticated ? (
+            <>
+              <li className="p-4 text-gray-300">Hello, {user?.fullname}</li>
+              <li>
+                <button
+                  onClick={() => logout()}
+                  className="px-5 py-2 rounded-full border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition duration-300"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link
+                  href="/login"
+                  className="px-5 py-2 rounded-full border border-white hover:bg-white hover:text-black transition duration-300"
+                >
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/register"
+                  className="px-5 py-2 rounded-full bg-white text-black font-medium hover:bg-gray-200 transition duration-300"
+                >
+                  Signup
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
 
         {/* Mobile Button */}
@@ -67,16 +87,34 @@ const Navbar = () => {
             >
               <Link href="/">Home</Link>
             </li>
-            <li onClick={handleNav} className="p-4 text-4xl">
-              <Link href="/login" className="hover:text-gray-500 w-full">
-                Login
-              </Link>
-            </li>
-            <li onClick={handleNav} className="p-4 text-4xl">
-              <Link href="/register" className="hover:text-gray-500 w-full">
-                Signup
-              </Link>
-            </li>
+            {isAuthenticated ? (
+              <>
+                <li className="p-4 text-2xl text-gray-300">
+                  Hello, {user?.fullname}
+                </li>
+                <li onClick={handleNav} className="p-4 text-4xl">
+                  <button
+                    onClick={() => logout()}
+                    className="hover:text-red-500 w-full"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li onClick={handleNav} className="p-4 text-4xl">
+                  <Link href="/login" className="hover:text-gray-500 w-full">
+                    Login
+                  </Link>
+                </li>
+                <li onClick={handleNav} className="p-4 text-4xl">
+                  <Link href="/register" className="hover:text-gray-500 w-full">
+                    Signup
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
