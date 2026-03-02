@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useAuthStore } from "@/stores/auth.store";
 import { useLogout } from "@/hooks/useAuth";
+import ProfileDropdown from "@/components/ProfileDropdown";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -30,12 +31,7 @@ const Navbar = () => {
             <>
               <li className="p-4 text-gray-300">Hello, {user?.fullname}</li>
               <li>
-                <button
-                  onClick={() => logout()}
-                  className="px-5 py-2 rounded-full border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition duration-300"
-                >
-                  Logout
-                </button>
+                <ProfileDropdown />
               </li>
             </>
           ) : (
@@ -91,6 +87,11 @@ const Navbar = () => {
               <>
                 <li className="p-4 text-2xl text-gray-300">
                   Hello, {user?.fullname}
+                </li>
+                <li onClick={handleNav} className="p-4 text-4xl">
+                  <Link href="/settings" className="hover:text-gray-500 w-full">
+                    Settings
+                  </Link>
                 </li>
                 <li onClick={handleNav} className="p-4 text-4xl">
                   <button

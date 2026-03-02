@@ -7,7 +7,7 @@ export interface PublicUser {
   email: string;
   emailVerified: boolean;
   mfaEnabled: boolean;
-  createdAt: string; // ISO string on the wire (server sends Date, JSON serialises to string)
+  createdAt: string;
 }
 
 export interface RegisterResponse {
@@ -18,7 +18,6 @@ export interface RegisterResponse {
 export interface LoginResponse {
   mfaRequired: false;
   accessToken: string;
-  refreshToken: string;
 }
 
 export interface LoginMFAResponse {
@@ -35,4 +34,9 @@ export interface ApiErrorResponse {
   message: string;
   statusCode: number;
   errors?: Record<string, string[]>;
+}
+
+export interface ApiSuccessResponse {
+  success: boolean;
+  message: string;
 }

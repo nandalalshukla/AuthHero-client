@@ -15,6 +15,12 @@ import type {
   VerifyEmailInput,
 } from "./validators/auth.schema";
 
+interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
 // ─── Auth API functions ───
 // Each function is a thin, typed wrapper around the axios instance.
 // They return the *data* directly (unwrapping AxiosResponse) so consumers
@@ -22,20 +28,23 @@ import type {
 
 export const authApi = {
   register: async (data: RegisterInput) => {
-    const res = await api.post<RegisterResponse>("/auth/register", data);
-    return res.data;
+    const res = await api.post<ApiResponse<RegisterResponse>>(
+      "/auth/register",
+      data,
+    );
+    return res.data.data;
   },
 
   login: async (data: LoginInput) => {
-    const res = await api.post<LoginResponse | LoginMFAResponse>(
+    const res = await api.post<ApiResponse<LoginResponse | LoginMFAResponse>>(
       "/auth/login",
       data,
     );
-    return res.data;
+    return res.data.data;
   },
 
   getMe: async () => {
-    const res = await api.get<{ data: PublicUser }>("/auth/me");
+    const res = await api.get<ApiResponse<PublicUser>>("/auth/me");
     return res.data.data;
   },
 
@@ -69,8 +78,10 @@ export const authApi = {
   },
 
   refreshToken: async () => {
-    const res = await api.post<RefreshResponse>("/auth/refresh-token");
-    return res.data;
+    const res = await api.post<ApiResponse<RefreshResponse>>(
+      "/auth/refresh-token",
+    );
+    return res.data.data;
   },
 
   logout: async () => {
@@ -83,6 +94,28 @@ export const authApi = {
     return res.data;
   },
 
+  // ─── MFA ───
+
+  mfaSetup: async () => {
+    const res =
+      await api.post<ApiResponse<MFASetupResponse>>("/auth/mfa/setup");
+    return res.data.data;
+  },
+
+  mfaVerify: async (token: string) => {
+    const res = await api.post<{ message: string }>("/auth/mfa/verify", {
+      token,
+    });
+    return res.data;
+  },
+
+  mfaDisable: async (code: string) => {
+    const res = await api.post<{ message: string }>("/auth/mfa/disable", {
+      code,
+    });
+    return res.data;
+  },
+
   // ─── OAuth ───
   // Exchange the one-time code from the OAuth redirect for real tokens.
   // The backend consumes (deletes) the code on first use.
@@ -90,9 +123,16 @@ export const authApi = {
     const res = await api.post<OAuthExchangeResponse>("/auth/oauth/exchange", {
       code,
     });
-    return res.data;
+    return res.data.data;
   },
 } as const;
+
+// ─── MFA setup response ───
+export interface MFASetupResponse {
+  secret: string;
+  qrCode: string;
+  backupCodes: string[];
+}
 
 // ─── OAuth exchange response ───
 export interface OAuthExchangeResponse {

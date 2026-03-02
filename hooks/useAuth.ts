@@ -112,18 +112,28 @@ export function useVerifyEmail() {
 
 export function useOAuthExchange() {
   const router = useRouter();
+  const { setUser, setToken } = useAuthStore();
 
   return useMutation({
     mutationFn: authApi.exchangeOAuthCode,
-    onSuccess: (res) => {
-      if (res.data.mfaRequired) {
+    onSuccess: async (data) => {
+      if (data.mfaRequired) {
         toast.info("MFA required. Please enter your code.");
         router.push("/mfa");
         return;
       }
 
-      toast.success("Logged in successfully!");
-      router.push("/");
+      setToken(data.accessToken);
+
+      try {
+        const user = await authApi.getMe();
+        setUser(user);
+        toast.success("Logged in successfully!");
+        router.push("/");
+      } catch (error) {
+        console.error("Failed to fetch user details", error);
+        toast.error("Login succeeded but failed to fetch user details.");
+      }
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));
@@ -148,6 +158,79 @@ export function useLogout() {
       clearAuth();
       toast.error(getErrorMessage(error));
       router.push("/login");
+    },
+  });
+}
+
+export function useLogoutAll() {
+  const clearAuth = useAuthStore((s) => s.clearAuth);
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: authApi.logoutAll,
+    onSuccess: () => {
+      clearAuth();
+      toast.success("All sessions revoked.");
+      router.push("/login");
+    },
+    onError: (error) => {
+      clearAuth();
+      toast.error(getErrorMessage(error));
+      router.push("/login");
+    },
+  });
+}
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: authApi.changePassword,
+    onSuccess: () => {
+      toast.success("Password changed successfully.");
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useMFASetup() {
+  return useMutation({
+    mutationFn: authApi.mfaSetup,
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useMFAVerify() {
+  const setUser = useAuthStore((s) => s.setUser);
+
+  return useMutation({
+    mutationFn: authApi.mfaVerify,
+    onSuccess: async () => {
+      toast.success("MFA enabled successfully.");
+      // Refresh user state so mfaEnabled reflects the change
+      const user = await authApi.getMe();
+      setUser(user);
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useMFADisable() {
+  const setUser = useAuthStore((s) => s.setUser);
+
+  return useMutation({
+    mutationFn: authApi.mfaDisable,
+    onSuccess: async () => {
+      toast.success("MFA disabled successfully.");
+      const user = await authApi.getMe();
+      setUser(user);
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
     },
   });
 }
