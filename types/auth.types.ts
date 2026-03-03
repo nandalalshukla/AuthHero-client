@@ -66,3 +66,8 @@ export interface OAuthExchangeResponse {
     | { mfaRequired: false; accessToken: string }
     | { mfaRequired: true; tempToken: string };
 }
+
+// ─── Account Actions ───
+export interface MessageResponse {
+  message: string;
+}

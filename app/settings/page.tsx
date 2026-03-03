@@ -3,9 +3,10 @@
 import { useAuthStore } from "@/stores/auth.store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { FiLock, FiShield, FiUser } from "react-icons/fi";
+import { FiLock, FiShield, FiUser, FiAlertTriangle } from "react-icons/fi";
 import ChangePasswordForm from "@/components/settings/ChangePasswordForm";
 import MFASection from "@/components/settings/MFASection";
+import AccountDangerZone from "@/components/settings/AccountDangerZone";
 
 // ─── Settings Page ───
 // Central place for account management. Each section maps to a backend feature.
@@ -71,6 +72,15 @@ export default function SettingsPage() {
           title="Two-Factor Authentication"
         >
           <MFASection />
+        </SettingsCard>
+
+        {/* Danger Zone */}
+        <SettingsCard
+          id="danger"
+          icon={<FiAlertTriangle className="text-lg text-red-400" />}
+          title="Danger Zone"
+        >
+          <AccountDangerZone />
         </SettingsCard>
       </div>
     </div>

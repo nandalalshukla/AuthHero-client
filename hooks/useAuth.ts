@@ -18,6 +18,15 @@ function getErrorMessage(error: unknown): string {
   return "Something went wrong";
 }
 
+/** Extract the machine-readable error code from an API error (if any) */
+function getErrorCode(error: unknown): string | undefined {
+  if (error instanceof AxiosError) {
+    const data = error.response?.data as ApiErrorResponse | undefined;
+    return data?.errorCode;
+  }
+  return undefined;
+}
+
 /** Shared post-login logic: save token, fetch user profile, update store */
 async function handleLoginSuccess(
   accessToken: string,
@@ -86,6 +95,23 @@ export function useLogin() {
       }
     },
     onError: (error) => {
+      const code = getErrorCode(error);
+
+      if (code === "ACCOUNT_DEACTIVATED") {
+        toast.error("Your account is deactivated.", {
+          action: {
+            label: "Reactivate",
+            onClick: () => router.push("/reactivate"),
+          },
+        });
+        return;
+      }
+
+      if (code === "ACCOUNT_DELETED") {
+        toast.error("This account has been permanently deleted.");
+        return;
+      }
+
       toast.error(getErrorMessage(error));
     },
   });
@@ -276,6 +302,55 @@ export function useMFARegenerateBackupCodes() {
     mutationFn: authApi.mfaRegenerateBackupCodes,
     onSuccess: () => {
       toast.success("Backup codes regenerated. Save them somewhere safe!");
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useDeactivateAccount() {
+  const clearAuth = useAuthStore((s) => s.clearAuth);
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: authApi.deactivateAccount,
+    onSuccess: () => {
+      clearAuth();
+      toast.success("Account deactivated. You can reactivate anytime.");
+      router.push("/login");
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useDeleteAccount() {
+  const clearAuth = useAuthStore((s) => s.clearAuth);
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: authApi.deleteAccount,
+    onSuccess: () => {
+      clearAuth();
+      toast.success("Account deleted permanently.");
+      router.push("/login");
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useReactivateAccount() {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: authApi.reactivateAccount,
+    onSuccess: () => {
+      toast.success("Account reactivated! You can now log in.");
+      router.push("/login");
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));

@@ -9,6 +9,7 @@ import type {
   MFAChallengeResponse,
   MFABackupCodesResponse,
   OAuthExchangeResponse,
+  MessageResponse,
 } from "@/types/auth.types";
 import type {
   RegisterInput,
@@ -17,6 +18,9 @@ import type {
   ResetPasswordInput,
   ChangePasswordInput,
   VerifyEmailInput,
+  DeactivateAccountInput,
+  DeleteAccountInput,
+  ReactivateAccountInput,
 } from "./validators/auth.schema";
 
 // ─── Auth API functions ───
@@ -138,5 +142,22 @@ export const authApi = {
       code,
     });
     return res.data.data;
+  },
+
+  // ─── Account Actions ───
+
+  deactivateAccount: async (data: DeactivateAccountInput) => {
+    const res = await api.post<MessageResponse>("/auth/deactivate", data);
+    return res.data;
+  },
+
+  deleteAccount: async (data: DeleteAccountInput) => {
+    const res = await api.post<MessageResponse>("/auth/delete-account", data);
+    return res.data;
+  },
+
+  reactivateAccount: async (data: ReactivateAccountInput) => {
+    const res = await api.post<MessageResponse>("/auth/reactivate", data);
+    return res.data;
   },
 } as const;

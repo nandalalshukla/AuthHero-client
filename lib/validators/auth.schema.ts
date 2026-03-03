@@ -50,3 +50,25 @@ export const verifyEmailSchema = z.object({
   token: z.string().min(1, "Token is required"),
 });
 export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
+
+// ─── Deactivate Account ───
+export const deactivateAccountSchema = z.object({
+  password: z.string().min(1, "Password is required to confirm deactivation"),
+});
+export type DeactivateAccountInput = z.infer<typeof deactivateAccountSchema>;
+
+// ─── Delete Account ───
+export const deleteAccountSchema = z.object({
+  password: z.string().min(1, "Password is required to confirm deletion"),
+  confirmation: z.literal("DELETE MY ACCOUNT", {
+    message: 'You must type "DELETE MY ACCOUNT" to confirm',
+  }),
+});
+export type DeleteAccountInput = z.infer<typeof deleteAccountSchema>;
+
+// ─── Reactivate Account ───
+export const reactivateAccountSchema = z.object({
+  email: z.string().email("Invalid email format").toLowerCase().trim(),
+  password: z.string().min(1, "Password is required"),
+});
+export type ReactivateAccountInput = z.infer<typeof reactivateAccountSchema>;
