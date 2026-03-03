@@ -23,10 +23,7 @@ export function Table({ headers, rows }: TableProps) {
         </thead>
         <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
           {rows.map((row, i) => (
-            <tr
-              key={i}
-              className="bg-white dark:bg-zinc-950"
-            >
+            <tr key={i} className="bg-white dark:bg-zinc-950">
               {row.map((cell, j) => (
                 <td
                   key={j}
@@ -82,18 +79,14 @@ const calloutStyles = {
   },
 };
 
-export function Callout({
-  type = "info",
-  title,
-  children,
-}: CalloutProps) {
+export function Callout({ type = "info", title, children }: CalloutProps) {
   const style = calloutStyles[type];
   return (
-    <div
-      className={`my-6 rounded-lg border ${style.border} ${style.bg} p-4`}
-    >
+    <div className={`my-6 rounded-lg border ${style.border} ${style.bg} p-4`}>
       {title && (
-        <div className={`mb-2 flex items-center gap-2 font-semibold ${style.title}`}>
+        <div
+          className={`mb-2 flex items-center gap-2 font-semibold ${style.title}`}
+        >
           <span>{style.icon}</span>
           <span>{title}</span>
         </div>
@@ -112,7 +105,7 @@ export function Heading({
   level: 1 | 2 | 3 | 4;
   children: React.ReactNode;
 }) {
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4";
   const sizes = {
     1: "text-4xl font-bold mt-0 mb-6",
     2: "text-2xl font-bold mt-12 mb-4",
@@ -125,10 +118,7 @@ export function Heading({
       id={id}
       className={`${sizes[level]} scroll-mt-20 text-zinc-900 dark:text-zinc-100`}
     >
-      <a
-        href={`#${id}`}
-        className="group"
-      >
+      <a href={`#${id}`} className="group">
         {children}
         <span className="ml-2 text-zinc-300 opacity-0 transition-opacity group-hover:opacity-100 dark:text-zinc-600">
           #
@@ -162,16 +152,25 @@ export function Step({
   );
 }
 
-export function Badge({ children, color = "blue" }: { children: React.ReactNode; color?: "blue" | "green" | "amber" | "red" | "zinc" }) {
+export function Badge({
+  children,
+  color = "blue",
+}: {
+  children: React.ReactNode;
+  color?: "blue" | "green" | "amber" | "red" | "zinc";
+}) {
   const colors = {
     blue: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
-    green: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300",
+    green:
+      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300",
     amber: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300",
     red: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
     zinc: "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300",
   };
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${colors[color]}`}>
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${colors[color]}`}
+    >
       {children}
     </span>
   );
@@ -187,7 +186,7 @@ export function EndpointCard({
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   path: string;
   auth?: boolean;
-  description: string;
+  description?: string;
   children?: React.ReactNode;
 }) {
   const methodColors = {
@@ -195,7 +194,8 @@ export function EndpointCard({
     POST: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
     PUT: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300",
     DELETE: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-    PATCH: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300",
+    PATCH:
+      "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300",
   };
 
   return (
@@ -216,7 +216,11 @@ export function EndpointCard({
         )}
       </div>
       <div className="px-4 py-3">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
+        {description && (
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            {description}
+          </p>
+        )}
         {children}
       </div>
     </div>

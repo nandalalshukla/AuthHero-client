@@ -89,9 +89,7 @@ auth.app.listen(3000);`}
             <h3 className="mb-1 font-semibold text-zinc-900 dark:text-white">
               {f.title}
             </h3>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              {f.desc}
-            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">{f.desc}</p>
           </div>
         ))}
       </div>
@@ -183,7 +181,11 @@ auth.app.listen(3000);`}
               ["Express 5", "Framework", "HTTP framework"],
               ["TypeScript", "Language", "Strict mode type safety"],
               ["PostgreSQL + Prisma 7", "Database", "Primary data store"],
-              ["Redis + BullMQ", "Cache / Queue", "Rate limiting, jobs, OAuth codes"],
+              [
+                "Redis + BullMQ",
+                "Cache / Queue",
+                "Rate limiting, jobs, OAuth codes",
+              ],
               ["JWT + Argon2", "Auth", "Tokens + password hashing"],
               ["otplib + QRCode", "MFA", "TOTP one-time passwords"],
               ["AES-256-GCM", "Encryption", "TOTP secret encryption at rest"],

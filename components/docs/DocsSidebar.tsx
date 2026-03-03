@@ -46,7 +46,6 @@ const sections: SidebarSection[] = [
     items: [
       { title: "Security Deep Dive", href: "/docs/security" },
       { title: "Frontend Integration", href: "/docs/frontend" },
-      { title: "Source Code Reference", href: "/docs/source-code" },
       { title: "Deployment", href: "/docs/deployment" },
     ],
   },
