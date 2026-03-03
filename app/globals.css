@@ -23,3 +23,79 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* ── Docs Prose Styles ────────────────────────────────────────────── */
+.prose-docs {
+  color: var(--foreground);
+  line-height: 1.75;
+}
+.prose-docs p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #52525b;
+}
+.prose-docs a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-docs a:hover {
+  color: #1d4ed8;
+}
+.prose-docs strong {
+  font-weight: 600;
+  color: #18181b;
+}
+.prose-docs ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+.prose-docs ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  list-style-type: decimal;
+}
+.prose-docs li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  color: #52525b;
+}
+.prose-docs hr {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-color: #e4e4e7;
+}
+.prose-docs blockquote {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid #e4e4e7;
+  padding-left: 1rem;
+  color: #71717a;
+  font-style: italic;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-docs p,
+  .prose-docs li {
+    color: #a1a1aa;
+  }
+  .prose-docs strong {
+    color: #fafafa;
+  }
+  .prose-docs a {
+    color: #60a5fa;
+  }
+  .prose-docs a:hover {
+    color: #93bbfd;
+  }
+  .prose-docs hr {
+    border-color: #27272a;
+  }
+  .prose-docs blockquote {
+    border-color: #3f3f46;
+    color: #a1a1aa;
+  }
+}
