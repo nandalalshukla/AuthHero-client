@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { authApi } from "@/lib/auth.api";
 import { useAuthStore } from "@/stores/auth.store";
-import type { ApiErrorResponse } from "@/types/auth.types";
+import type { ApiErrorResponse, PublicUser } from "@/types/auth.types";
 
 // ─── Helpers ───
 
@@ -16,6 +16,34 @@ function getErrorMessage(error: unknown): string {
   }
   if (error instanceof Error) return error.message;
   return "Something went wrong";
+}
+
+/** Shared post-login logic: save token, fetch user profile, update store */
+async function handleLoginSuccess(
+  accessToken: string,
+  setToken: (token: string) => void,
+  setUser: (user: PublicUser) => void,
+) {
+  setToken(accessToken);
+  const user = await authApi.getMe();
+  setUser(user);
+}
+
+/** Refresh user profile in the store (used after MFA enable/disable) */
+async function refreshUserProfile(setUser: (user: PublicUser) => void) {
+  const user = await authApi.getMe();
+  setUser(user);
+}
+
+/** Store the MFA temp token and redirect to the challenge page */
+function handleMFARequired(
+  tempToken: string,
+  setMFATempToken: (token: string) => void,
+  router: ReturnType<typeof useRouter>,
+) {
+  setMFATempToken(tempToken);
+  toast.info("MFA verification required. Please enter your code.");
+  router.push("/mfa");
 }
 
 // ─── Mutations ───
@@ -39,27 +67,21 @@ export function useRegister() {
 
 export function useLogin() {
   const router = useRouter();
-  const { setUser, setToken } = useAuthStore();
+  const { setUser, setToken, setMFATempToken } = useAuthStore();
 
   return useMutation({
     mutationFn: authApi.login,
     onSuccess: async (data) => {
       if (data.mfaRequired) {
-        // MFA flow — redirect to MFA page with temp token
-        toast.info("MFA required. Please enter your code.");
-        router.push("/mfa"); // build this page when you add MFA UI
+        handleMFARequired(data.tempToken, setMFATempToken, router);
         return;
       }
 
-      // Normal login — server sets httpOnly cookies for tokens.
       try {
-        setToken(data.accessToken); // Save token for requests
-        const user = await authApi.getMe();
-        setUser(user);
+        await handleLoginSuccess(data.accessToken, setToken, setUser);
         toast.success("Logged in successfully!");
         router.push("/");
-      } catch (error) {
-        console.error("Failed to fetch user details", error);
+      } catch {
         toast.error("Login succeeded but failed to fetch user details.");
       }
     },
@@ -112,26 +134,21 @@ export function useVerifyEmail() {
 
 export function useOAuthExchange() {
   const router = useRouter();
-  const { setUser, setToken } = useAuthStore();
+  const { setUser, setToken, setMFATempToken } = useAuthStore();
 
   return useMutation({
     mutationFn: authApi.exchangeOAuthCode,
     onSuccess: async (data) => {
       if (data.mfaRequired) {
-        toast.info("MFA required. Please enter your code.");
-        router.push("/mfa");
+        handleMFARequired(data.tempToken, setMFATempToken, router);
         return;
       }
 
-      setToken(data.accessToken);
-
       try {
-        const user = await authApi.getMe();
-        setUser(user);
+        await handleLoginSuccess(data.accessToken, setToken, setUser);
         toast.success("Logged in successfully!");
         router.push("/");
-      } catch (error) {
-        console.error("Failed to fetch user details", error);
+      } catch {
         toast.error("Login succeeded but failed to fetch user details.");
       }
     },
@@ -209,9 +226,7 @@ export function useMFAVerify() {
     mutationFn: authApi.mfaVerify,
     onSuccess: async () => {
       toast.success("MFA enabled successfully.");
-      // Refresh user state so mfaEnabled reflects the change
-      const user = await authApi.getMe();
-      setUser(user);
+      await refreshUserProfile(setUser);
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));
@@ -226,8 +241,41 @@ export function useMFADisable() {
     mutationFn: authApi.mfaDisable,
     onSuccess: async () => {
       toast.success("MFA disabled successfully.");
-      const user = await authApi.getMe();
-      setUser(user);
+      await refreshUserProfile(setUser);
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useMFAChallenge() {
+  const router = useRouter();
+  const { setUser, setToken, clearMFATempToken } = useAuthStore();
+
+  return useMutation({
+    mutationFn: authApi.mfaChallenge,
+    onSuccess: async (data) => {
+      try {
+        clearMFATempToken();
+        await handleLoginSuccess(data.accessToken, setToken, setUser);
+        toast.success("Logged in successfully!");
+        router.push("/");
+      } catch {
+        toast.error("MFA passed but failed to fetch user details.");
+      }
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    },
+  });
+}
+
+export function useMFARegenerateBackupCodes() {
+  return useMutation({
+    mutationFn: authApi.mfaRegenerateBackupCodes,
+    onSuccess: () => {
+      toast.success("Backup codes regenerated. Save them somewhere safe!");
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));

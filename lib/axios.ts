@@ -73,15 +73,23 @@ api.interceptors.response.use(
             });
         }
 
-        await refreshPromise;
+        const refreshResponse = await refreshPromise;
 
-        // Retry original request
+        // Save the new access token so subsequent requests use it
+        const newAccessToken = (
+          refreshResponse as { data: { data: { accessToken: string } } }
+        ).data?.data?.accessToken;
+        if (newAccessToken) {
+          useAuthStore.getState().setToken(newAccessToken);
+        }
+
+        // Retry original request (interceptor will pick up the new token)
         return api(originalRequest);
       } catch (refreshError) {
-        // Refresh failed → clear auth & redirect
+        // Refresh failed → clear auth & redirect to login
+        useAuthStore.getState().clearAuth();
         if (typeof window !== "undefined") {
-          localStorage.removeItem("auth-storage");
-          window.location.href = "/auth/login";
+          window.location.href = "/login";
         }
 
         return Promise.reject(refreshError);

@@ -3,8 +3,12 @@ import type {
   RegisterResponse,
   LoginResponse,
   LoginMFAResponse,
-  RefreshResponse,
   PublicUser,
+  ApiResponse,
+  MFASetupResponse,
+  MFAChallengeResponse,
+  MFABackupCodesResponse,
+  OAuthExchangeResponse,
 } from "@/types/auth.types";
 import type {
   RegisterInput,
@@ -14,12 +18,6 @@ import type {
   ChangePasswordInput,
   VerifyEmailInput,
 } from "./validators/auth.schema";
-
-interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
-}
 
 // ─── Auth API functions ───
 // Each function is a thin, typed wrapper around the axios instance.
@@ -78,7 +76,7 @@ export const authApi = {
   },
 
   refreshToken: async () => {
-    const res = await api.post<ApiResponse<RefreshResponse>>(
+    const res = await api.post<ApiResponse<{ accessToken: string }>>(
       "/auth/refresh-token",
     );
     return res.data.data;
@@ -116,6 +114,22 @@ export const authApi = {
     return res.data;
   },
 
+  mfaChallenge: async (data: { tempToken: string; code: string }) => {
+    const res = await api.post<ApiResponse<MFAChallengeResponse>>(
+      "/auth/mfa/challenge",
+      data,
+    );
+    return res.data.data;
+  },
+
+  mfaRegenerateBackupCodes: async (code: string) => {
+    const res = await api.post<ApiResponse<MFABackupCodesResponse>>(
+      "/auth/mfa/regenerate-backup-codes",
+      { code },
+    );
+    return res.data.data;
+  },
+
   // ─── OAuth ───
   // Exchange the one-time code from the OAuth redirect for real tokens.
   // The backend consumes (deletes) the code on first use.
@@ -126,19 +140,3 @@ export const authApi = {
     return res.data.data;
   },
 } as const;
-
-// ─── MFA setup response ───
-export interface MFASetupResponse {
-  secret: string;
-  qrCode: string;
-  backupCodes: string[];
-}
-
-// ─── OAuth exchange response ───
-export interface OAuthExchangeResponse {
-  success: boolean;
-  message: string;
-  data:
-    | { mfaRequired: false; accessToken: string }
-    | { mfaRequired: true; tempToken: string };
-}

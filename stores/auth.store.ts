@@ -11,11 +11,15 @@ interface AuthState {
   user: PublicUser | null;
   accessToken: string | null;
   isAuthenticated: boolean;
+  /** Temporary token for MFA challenge (short-lived, cleared after use) */
+  mfaTempToken: string | null;
 }
 
 interface AuthActions {
   setUser: (user: PublicUser) => void;
   setToken: (token: string) => void;
+  setMFATempToken: (token: string) => void;
+  clearMFATempToken: () => void;
   clearAuth: () => void;
 }
 
@@ -25,11 +29,19 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       user: null,
       accessToken: null,
       isAuthenticated: false,
+      mfaTempToken: null,
 
       setUser: (user) => set({ user, isAuthenticated: true }),
       setToken: (accessToken) => set({ accessToken }),
+      setMFATempToken: (mfaTempToken) => set({ mfaTempToken }),
+      clearMFATempToken: () => set({ mfaTempToken: null }),
       clearAuth: () =>
-        set({ user: null, accessToken: null, isAuthenticated: false }),
+        set({
+          user: null,
+          accessToken: null,
+          isAuthenticated: false,
+          mfaTempToken: null,
+        }),
     }),
     {
       name: "auth-storage", // localStorage key (matches your axios interceptor)

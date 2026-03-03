@@ -1,16 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
-import { FiShield, FiShieldOff } from "react-icons/fi";
+import {
+  FiShield,
+  FiShieldOff,
+  FiRefreshCw,
+  FiCopy,
+  FiCheck,
+} from "react-icons/fi";
 import { useAuthStore } from "@/stores/auth.store";
-import { useMFASetup, useMFAVerify, useMFADisable } from "@/hooks/useAuth";
-import type { MFASetupResponse } from "@/lib/auth.api";
+import {
+  useMFASetup,
+  useMFAVerify,
+  useMFADisable,
+  useMFARegenerateBackupCodes,
+} from "@/hooks/useAuth";
+import type { MFASetupResponse } from "@/types/auth.types";
 
 // ─── MFASection ───
 // Handles the full MFA lifecycle:
 //   1. Setup  → shows QR code + backup codes
 //   2. Verify → user enters TOTP code to confirm setup
-//   3. Disable → user enters current TOTP code to turn off MFA
+//   3. Disable → user enters current TOTP or backup code to turn off MFA
+//   4. Regenerate backup codes → replaces all existing backup codes
 // State is kept local — no global store needed for the setup flow.
 
 export default function MFASection() {
@@ -18,7 +30,7 @@ export default function MFASection() {
   const mfaEnabled = user?.mfaEnabled ?? false;
 
   if (mfaEnabled) {
-    return <DisableMFA />;
+    return <MFAEnabled />;
   }
 
   return <EnableMFA />;
@@ -29,6 +41,7 @@ export default function MFASection() {
 function EnableMFA() {
   const [setupData, setSetupData] = useState<MFASetupResponse | null>(null);
   const [verifyCode, setVerifyCode] = useState("");
+  const [copiedSecret, setCopiedSecret] = useState(false);
 
   const setupMutation = useMFASetup();
   const verifyMutation = useMFAVerify();
@@ -48,6 +61,13 @@ function EnableMFA() {
         setVerifyCode("");
       },
     });
+  };
+
+  const handleCopySecret = async () => {
+    if (!setupData?.secret) return;
+    await navigator.clipboard.writeText(setupData.secret);
+    setCopiedSecret(true);
+    setTimeout(() => setCopiedSecret(false), 2000);
   };
 
   // Step 1: Show setup button
@@ -87,30 +107,30 @@ function EnableMFA() {
             height={200}
           />
         </div>
-        <p className="text-xs text-gray-500">
-          Or enter this secret manually:{" "}
-          <code className="text-gray-300 bg-white/10 px-1.5 py-0.5 rounded text-xs">
-            {setupData.secret}
-          </code>
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-xs text-gray-500">
+            Or enter this secret manually:{" "}
+            <code className="text-gray-300 bg-white/10 px-1.5 py-0.5 rounded text-xs">
+              {setupData.secret}
+            </code>
+          </p>
+          <button
+            type="button"
+            onClick={handleCopySecret}
+            className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+            title="Copy secret"
+          >
+            {copiedSecret ? (
+              <FiCheck className="text-green-400 text-xs" />
+            ) : (
+              <FiCopy className="text-xs" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Backup Codes */}
-      <div className="space-y-2">
-        <p className="text-sm text-gray-300 font-medium">
-          Backup codes (save these somewhere safe):
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          {setupData.backupCodes.map((code) => (
-            <code
-              key={code}
-              className="text-xs text-gray-300 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-center font-mono"
-            >
-              {code}
-            </code>
-          ))}
-        </div>
-      </div>
+      <BackupCodesDisplay codes={setupData.backupCodes} />
 
       {/* Verify Code */}
       <form onSubmit={handleVerify} className="space-y-3">
@@ -142,10 +162,98 @@ function EnableMFA() {
   );
 }
 
+// ─── MFA Enabled State (Disable + Regenerate Backup Codes) ───
+
+function MFAEnabled() {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-2">
+        <FiShield className="text-green-400" />
+        <span className="text-sm text-green-400 font-medium">
+          MFA is currently enabled
+        </span>
+      </div>
+
+      <RegenerateBackupCodes />
+
+      <div className="border-t border-white/10 pt-4">
+        <DisableMFA />
+      </div>
+    </div>
+  );
+}
+
+// ─── Regenerate Backup Codes ───
+
+function RegenerateBackupCodes() {
+  const [code, setCode] = useState("");
+  const [newCodes, setNewCodes] = useState<string[] | null>(null);
+  const regenMutation = useMFARegenerateBackupCodes();
+
+  const handleRegenerate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!code.trim()) return;
+    regenMutation.mutate(code, {
+      onSuccess: (data) => {
+        setNewCodes(data.backupCodes);
+        setCode("");
+      },
+    });
+  };
+
+  if (newCodes) {
+    return (
+      <div className="space-y-3">
+        <p className="text-sm text-gray-300 font-medium">
+          Your new backup codes (save these — old codes no longer work):
+        </p>
+        <BackupCodesDisplay codes={newCodes} />
+        <button
+          type="button"
+          onClick={() => setNewCodes(null)}
+          className="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
+        >
+          Done — I&apos;ve saved my codes
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleRegenerate} className="space-y-3">
+      <p className="text-sm text-gray-400">
+        Lost your backup codes? Generate new ones (this invalidates old codes).
+      </p>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={6}
+          value={code}
+          onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+          placeholder="TOTP code"
+          className="flex-1 bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-300 tracking-[0.3em] text-center font-mono text-sm"
+        />
+        <button
+          type="submit"
+          disabled={code.length !== 6 || regenMutation.isPending}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/20 hover:bg-white/10 text-white text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
+        >
+          <FiRefreshCw
+            className={`text-base ${regenMutation.isPending ? "animate-spin" : ""}`}
+          />
+          {regenMutation.isPending ? "Regenerating..." : "Regenerate"}
+        </button>
+      </div>
+    </form>
+  );
+}
+
 // ─── Disable MFA Flow ───
 
 function DisableMFA() {
   const [code, setCode] = useState("");
+  const [isBackupMode, setIsBackupMode] = useState(false);
   const disableMutation = useMFADisable();
 
   const handleDisable = (e: React.FormEvent) => {
@@ -156,41 +264,110 @@ function DisableMFA() {
     });
   };
 
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <FiShield className="text-green-400" />
-        <span className="text-sm text-green-400 font-medium">
-          MFA is currently enabled
-        </span>
-      </div>
+  const maxLength = isBackupMode ? 8 : 6;
+  const expectedLength = isBackupMode ? 8 : 6;
 
+  return (
+    <div className="space-y-3">
       <form onSubmit={handleDisable} className="space-y-3">
         <label
           htmlFor="mfa-disable"
           className="block text-sm font-medium text-gray-200"
         >
-          Enter your current TOTP code to disable MFA:
+          {isBackupMode
+            ? "Enter a backup code to disable MFA:"
+            : "Enter your current TOTP code to disable MFA:"}
         </label>
         <input
           id="mfa-disable"
           type="text"
-          inputMode="numeric"
-          maxLength={6}
+          inputMode={isBackupMode ? "text" : "numeric"}
+          maxLength={maxLength}
           value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
-          placeholder="000000"
+          onChange={(e) => {
+            const val = isBackupMode
+              ? e.target.value.replace(/[^a-fA-F0-9]/g, "").toLowerCase()
+              : e.target.value.replace(/\D/g, "");
+            setCode(val);
+          }}
+          placeholder={isBackupMode ? "a1b2c3d4" : "000000"}
           className="w-full bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-300 tracking-[0.3em] text-center font-mono"
         />
         <button
           type="submit"
-          disabled={code.length !== 6 || disableMutation.isPending}
+          disabled={code.length !== expectedLength || disableMutation.isPending}
           className="flex items-center justify-center gap-2 w-full py-2 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 font-semibold text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <FiShieldOff className="text-base" />
           {disableMutation.isPending ? "Disabling..." : "Disable MFA"}
         </button>
       </form>
+
+      <button
+        type="button"
+        onClick={() => {
+          setIsBackupMode(!isBackupMode);
+          setCode("");
+        }}
+        className="text-xs text-gray-500 hover:text-gray-300 transition-colors cursor-pointer"
+      >
+        {isBackupMode
+          ? "Use authenticator code instead"
+          : "Use a backup code instead"}
+      </button>
+    </div>
+  );
+}
+
+// ─── Shared: Backup Codes Display ───
+
+function BackupCodesDisplay({ codes }: { codes: string[] }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyAll = async () => {
+    await navigator.clipboard.writeText(codes.join("\n"));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-gray-300 font-medium">
+          Backup codes (save these somewhere safe):
+        </p>
+        <button
+          type="button"
+          onClick={handleCopyAll}
+          className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors cursor-pointer"
+        >
+          {copied ? (
+            <>
+              <FiCheck className="text-green-400" />
+              <span className="text-green-400">Copied!</span>
+            </>
+          ) : (
+            <>
+              <FiCopy />
+              <span>Copy all</span>
+            </>
+          )}
+        </button>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {codes.map((code) => (
+          <code
+            key={code}
+            className="text-xs text-gray-300 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-center font-mono"
+          >
+            {code}
+          </code>
+        ))}
+      </div>
+      <p className="text-xs text-gray-500">
+        Each code can only be used once. Keep them safe — they&apos;re your
+        fallback if you lose access to your authenticator app.
+      </p>
     </div>
   );
 }

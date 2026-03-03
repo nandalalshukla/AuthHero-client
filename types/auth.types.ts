@@ -27,16 +27,42 @@ export interface LoginMFAResponse {
 
 export interface RefreshResponse {
   accessToken: string;
-  refreshToken: string;
 }
 
 export interface ApiErrorResponse {
   message: string;
   statusCode: number;
+  errorCode?: string;
   errors?: Record<string, string[]>;
 }
 
-export interface ApiSuccessResponse {
+// ─── API wrapper that the server wraps every response in ───
+export interface ApiResponse<T> {
   success: boolean;
   message: string;
+  data: T;
+}
+
+// ─── MFA ───
+export interface MFASetupResponse {
+  secret: string;
+  qrCode: string;
+  backupCodes: string[];
+}
+
+export interface MFAChallengeResponse {
+  accessToken: string;
+}
+
+export interface MFABackupCodesResponse {
+  backupCodes: string[];
+}
+
+// ─── OAuth ───
+export interface OAuthExchangeResponse {
+  success: boolean;
+  message: string;
+  data:
+    | { mfaRequired: false; accessToken: string }
+    | { mfaRequired: true; tempToken: string };
 }
