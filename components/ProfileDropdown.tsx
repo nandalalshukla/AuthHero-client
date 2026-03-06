@@ -49,7 +49,7 @@ export default function ProfileDropdown() {
       {/* Avatar Button */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center justify-center w-9 h-9 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white/20 transition-all duration-200 cursor-pointer select-none"
+        className="flex items-center justify-center w-9 h-9 rounded-full bg-[#3ECF8E]/10 border border-[#3ECF8E]/20 text-[#3ECF8E] text-sm font-semibold hover:bg-[#3ECF8E]/20 transition-all duration-200 cursor-pointer select-none"
         aria-label="Open profile menu"
       >
         {initials}
@@ -57,13 +57,13 @@ export default function ProfileDropdown() {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-2 w-64 rounded-xl border border-white/15 bg-gray-900/95 backdrop-blur-xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+        <div className="absolute right-0 mt-2 w-64 rounded-xl border border-white/[0.06] bg-[#232323] backdrop-blur-xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
           {/* User Info */}
-          <div className="px-4 py-3 border-b border-white/10">
+          <div className="px-4 py-3 border-b border-white/[0.06]">
             <p className="text-sm font-medium text-white truncate">
               {user.fullname}
             </p>
-            <p className="text-xs text-gray-400 truncate">{user.email}</p>
+            <p className="text-xs text-zinc-400 truncate">{user.email}</p>
           </div>
 
           {/* Navigation Items */}
@@ -89,7 +89,7 @@ export default function ProfileDropdown() {
           </div>
 
           {/* Destructive Actions */}
-          <div className="py-1 border-t border-white/10">
+          <div className="py-1 border-t border-white/[0.06]">
             <DropdownButton
               icon={<FiMonitor className="text-base" />}
               label="Logout All Devices"
@@ -126,7 +126,7 @@ function DropdownLink({ href, icon, label, onClick }: DropdownLinkProps) {
     <Link
       href={href}
       onClick={onClick}
-      className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors duration-150"
+      className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:text-white hover:bg-white/[0.04] transition-colors duration-150"
     >
       {icon}
       {label}

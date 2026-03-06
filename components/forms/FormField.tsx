@@ -37,7 +37,7 @@ export function FormField({
     <div className="w-full">
       <label
         htmlFor={name}
-        className="block mb-2 text-left text-sm font-medium text-gray-200"
+        className="block mb-2 text-left text-sm font-medium text-zinc-300"
       >
         {label}
       </label>
@@ -46,7 +46,7 @@ export function FormField({
           id={name}
           {...register(name)}
           {...inputProps}
-          className="w-full bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-300 pr-10"
+          className="w-full bg-transparent border border-white/[0.06] rounded-lg px-3 py-2 text-white placeholder-zinc-500 outline-none focus:border-[#3ECF8E]/50 focus:ring-1 focus:ring-[#3ECF8E]/50 transition-all duration-300 pr-10"
         />
         {rightElement && (
           <div className="absolute right-3 top-3 text-gray-400 hover:text-white cursor-pointer transition-colors">
@@ -96,7 +96,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={isLoading || disabled}
-      className="w-full py-2 rounded-xl border border-white/20 hover:bg-white/10 text-white font-semibold text-md backdrop-blur-sm transition-all duration-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full py-2 rounded-lg bg-[#3ECF8E] text-[#1C1C1C] font-semibold text-md transition-all duration-200 hover:bg-[#4EEEA0] hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {isLoading ? loadingLabel : label}
     </button>

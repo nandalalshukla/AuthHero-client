@@ -2,6 +2,15 @@ import React from "react";
 import Link from "next/link";
 import CodeBlock from "@/components/docs/CodeBlock";
 import { Callout } from "@/components/docs/DocsComponents";
+import {
+  FiKey,
+  FiGlobe,
+  FiShield,
+  FiRefreshCw,
+  FiZap,
+  FiBox,
+  FiArrowRight,
+} from "react-icons/fi";
 
 export const metadata = {
   title: "AuthHero Documentation",
@@ -11,32 +20,32 @@ export const metadata = {
 
 const features = [
   {
-    icon: "🔑",
+    icon: FiKey,
     title: "Email / Password",
     desc: "Register, login, email verification, password reset & change — all production-ready.",
   },
   {
-    icon: "🌐",
+    icon: FiGlobe,
     title: "OAuth 2.0",
     desc: "Google, GitHub, Facebook with the Strategy Pattern. Add more providers in minutes.",
   },
   {
-    icon: "🛡️",
+    icon: FiShield,
     title: "MFA (TOTP)",
     desc: "Time-based one-time passwords with QR codes, backup codes, and challenge flow.",
   },
   {
-    icon: "🔄",
+    icon: FiRefreshCw,
     title: "Session Management",
     desc: "JWT access tokens + rotating refresh tokens with reuse detection.",
   },
   {
-    icon: "⚡",
+    icon: FiZap,
     title: "Rate Limiting",
     desc: "Per-route Redis-backed rate limiters prevent brute-force attacks.",
   },
   {
-    icon: "🏗️",
+    icon: FiBox,
     title: "Two Usage Modes",
     desc: "Standalone server or mount on your existing Express app as a library.",
   },
@@ -47,10 +56,14 @@ export default function DocsPage() {
     <>
       {/* Hero */}
       <div className="mb-12">
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl">
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#3ECF8E]/20 bg-[#3ECF8E]/[0.07] px-3 py-1 text-[12px] font-medium text-[#3ECF8E] mb-4">
+          <span className="flex h-1.5 w-1.5 rounded-full bg-[#3ECF8E] animate-pulse" />
+          Documentation
+        </div>
+        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
           AuthHero Documentation
         </h1>
-        <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
+        <p className="mt-4 text-lg text-zinc-400 leading-relaxed">
           Drop-in authentication for Express apps. Email/password, OAuth, MFA —
           all production-ready, fully typed, and secured out of the box.
         </p>
@@ -76,106 +89,108 @@ auth.app.listen(3000);`}
       </p>
 
       {/* Feature grid */}
-      <h2 className="mt-12 mb-6 text-2xl font-bold text-zinc-900 dark:text-white">
-        Features
-      </h2>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {features.map((f) => (
-          <div
-            key={f.title}
-            className="rounded-lg border border-zinc-200 p-5 transition-colors hover:border-blue-300 hover:bg-blue-50/50 dark:border-zinc-800 dark:hover:border-blue-700 dark:hover:bg-blue-950/20"
-          >
-            <div className="mb-2 text-2xl">{f.icon}</div>
-            <h3 className="mb-1 font-semibold text-zinc-900 dark:text-white">
-              {f.title}
-            </h3>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">{f.desc}</p>
-          </div>
-        ))}
+      <h2 className="mt-12 mb-6 text-2xl font-bold text-white">Features</h2>
+      <div className="grid gap-4 sm:grid-cols-2 not-prose">
+        {features.map((f) => {
+          const Icon = f.icon;
+          return (
+            <div
+              key={f.title}
+              className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#3ECF8E]/20 hover:bg-[#3ECF8E]/[0.03] group"
+            >
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#3ECF8E]/10 border border-[#3ECF8E]/20 mb-3">
+                <Icon className="w-4 h-4 text-[#3ECF8E]" />
+              </div>
+              <h3 className="mb-1 font-semibold text-white text-sm">
+                {f.title}
+              </h3>
+              <p className="text-[13px] text-zinc-400 leading-relaxed">
+                {f.desc}
+              </p>
+            </div>
+          );
+        })}
       </div>
 
       {/* Quick links */}
-      <h2 className="mt-12 mb-6 text-2xl font-bold text-zinc-900 dark:text-white">
-        Quick Links
-      </h2>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <h2 className="mt-12 mb-6 text-2xl font-bold text-white">Quick Links</h2>
+      <div className="grid gap-3 sm:grid-cols-2 not-prose">
         {[
           {
             href: "/docs/getting-started",
-            title: "Quick Start →",
+            title: "Quick Start",
             desc: "Get AuthHero running in under 5 minutes",
           },
           {
             href: "/docs/api-reference",
-            title: "API Reference →",
+            title: "API Reference",
             desc: "Every endpoint with request/response examples",
           },
           {
             href: "/docs/architecture",
-            title: "Architecture →",
+            title: "Architecture",
             desc: "Project structure and design patterns",
           },
           {
             href: "/docs/configuration",
-            title: "Configuration →",
+            title: "Configuration",
             desc: "Every environment variable explained",
           },
           {
             href: "/docs/oauth",
-            title: "OAuth Setup →",
+            title: "OAuth Setup",
             desc: "Configure Google, GitHub, Facebook",
           },
           {
             href: "/docs/mfa",
-            title: "MFA Guide →",
+            title: "MFA Guide",
             desc: "TOTP setup, challenge flow, backup codes",
           },
           {
             href: "/docs/security",
-            title: "Security →",
+            title: "Security",
             desc: "Every security measure explained in detail",
           },
           {
             href: "/docs/deployment",
-            title: "Deployment →",
+            title: "Deployment",
             desc: "Production checklist and Docker setup",
           },
         ].map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className="group rounded-lg border border-zinc-200 p-4 transition-colors hover:border-blue-300 hover:bg-blue-50/50 dark:border-zinc-800 dark:hover:border-blue-700 dark:hover:bg-blue-950/20 no-underline"
+            className="group flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#3ECF8E]/20 hover:bg-[#3ECF8E]/[0.03] no-underline"
           >
-            <h3 className="font-semibold text-zinc-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
-              {link.title}
-            </h3>
-            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-              {link.desc}
-            </p>
+            <div>
+              <h3 className="font-semibold text-white text-sm group-hover:text-[#3ECF8E] transition-colors">
+                {link.title}
+              </h3>
+              <p className="mt-1 text-[13px] text-zinc-400">{link.desc}</p>
+            </div>
+            <FiArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-[#3ECF8E] transition-all group-hover:translate-x-0.5 shrink-0 ml-4" />
           </Link>
         ))}
       </div>
 
       {/* Tech stack */}
-      <h2 className="mt-12 mb-6 text-2xl font-bold text-zinc-900 dark:text-white">
-        Tech Stack
-      </h2>
-      <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+      <h2 className="mt-12 mb-6 text-2xl font-bold text-white">Tech Stack</h2>
+      <div className="overflow-x-auto rounded-xl border border-white/[0.06] not-prose">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
+          <thead className="border-b border-white/[0.06] bg-white/[0.02]">
             <tr>
-              <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">
-                Layer
-              </th>
-              <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">
+              <th className="px-4 py-3 font-semibold text-zinc-300 text-xs uppercase tracking-wider">
                 Technology
               </th>
-              <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">
+              <th className="px-4 py-3 font-semibold text-zinc-300 text-xs uppercase tracking-wider">
+                Layer
+              </th>
+              <th className="px-4 py-3 font-semibold text-zinc-300 text-xs uppercase tracking-wider">
                 Purpose
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+          <tbody className="divide-y divide-white/[0.04]">
             {[
               ["Node.js ≥ 18", "Runtime", "Server runtime"],
               ["Express 5", "Framework", "HTTP framework"],
@@ -194,14 +209,15 @@ auth.app.listen(3000);`}
               ["Pino", "Logging", "Structured JSON logging"],
               ["Helmet", "Security", "HTTP security headers"],
             ].map(([tech, layer, purpose]) => (
-              <tr key={tech} className="bg-white dark:bg-zinc-950">
-                <td className="px-4 py-3 font-medium text-zinc-900 dark:text-zinc-100">
+              <tr
+                key={tech}
+                className="hover:bg-white/[0.02] transition-colors"
+              >
+                <td className="px-4 py-3 font-medium text-[#3ECF8E] text-[13px]">
                   {tech}
                 </td>
-                <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">
-                  {layer}
-                </td>
-                <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">
+                <td className="px-4 py-3 text-zinc-400 text-[13px]">{layer}</td>
+                <td className="px-4 py-3 text-zinc-400 text-[13px]">
                   {purpose}
                 </td>
               </tr>
@@ -213,7 +229,7 @@ auth.app.listen(3000);`}
       <Callout type="tip" title="CLI Scaffolder">
         <p>
           Want to start even faster? Run{" "}
-          <code className="rounded bg-emerald-100 px-1.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-800 dark:text-emerald-200">
+          <code className="rounded-md bg-[#3ECF8E]/10 px-1.5 py-0.5 text-xs font-medium text-[#3ECF8E] border border-[#3ECF8E]/20">
             npx create-authhero my-app
           </code>{" "}
           to scaffold a complete project with auto-generated secrets.

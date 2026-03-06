@@ -27,14 +27,23 @@ export default function CodeBlock({
   };
 
   return (
-    <div className="group relative my-4 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950 dark:border-zinc-800">
+    <div className="group relative my-5 overflow-hidden rounded-xl border border-white/[0.06] bg-[#111] not-prose">
       {/* Header bar */}
       {(filename || language) && (
-        <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900 px-4 py-2 text-xs">
-          <span className="text-zinc-400">{filename || language}</span>
+        <div className="flex items-center justify-between border-b border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-xs">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+              <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+              <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+            </div>
+            <span className="text-zinc-500 font-mono text-[12px]">
+              {filename || language}
+            </span>
+          </div>
           <button
             onClick={handleCopy}
-            className="rounded px-2 py-1 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200"
+            className="rounded-md px-2.5 py-1 text-zinc-500 transition-all hover:bg-white/[0.06] hover:text-zinc-300 text-[11px] font-medium uppercase tracking-wider"
           >
             {copied ? "Copied!" : "Copy"}
           </button>
@@ -44,7 +53,7 @@ export default function CodeBlock({
       {/* Code content */}
       <pre
         ref={codeRef}
-        className="overflow-x-auto p-4 text-sm leading-relaxed text-zinc-100"
+        className="overflow-x-auto p-4 text-[13px] leading-relaxed text-zinc-300"
       >
         <code>{children.trim()}</code>
       </pre>
@@ -53,7 +62,7 @@ export default function CodeBlock({
       {!filename && !language && (
         <button
           onClick={handleCopy}
-          className="absolute right-2 top-2 rounded bg-zinc-800 px-2 py-1 text-xs text-zinc-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-zinc-200"
+          className="absolute right-3 top-3 rounded-md bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-zinc-500 opacity-0 transition-all group-hover:opacity-100 hover:text-zinc-300"
         >
           {copied ? "Copied!" : "Copy"}
         </button>
@@ -64,7 +73,7 @@ export default function CodeBlock({
 
 export function InlineCode({ children }: { children: React.ReactNode }) {
   return (
-    <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm font-medium text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+    <code className="rounded-md bg-white/[0.06] px-1.5 py-0.5 text-[13px] font-medium text-[#3ECF8E]">
       {children}
     </code>
   );

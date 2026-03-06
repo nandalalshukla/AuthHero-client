@@ -7,30 +7,27 @@ interface TableProps {
 
 export function Table({ headers, rows }: TableProps) {
   return (
-    <div className="my-6 overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+    <div className="my-6 overflow-x-auto rounded-xl border border-white/[0.06] not-prose">
       <table className="w-full text-left text-sm">
-        <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
+        <thead className="border-b border-white/[0.06] bg-white/[0.02]">
           <tr>
             {headers.map((header) => (
               <th
                 key={header}
-                className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-300"
               >
                 {header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+        <tbody className="divide-y divide-white/[0.04]">
           {rows.map((row, i) => (
-            <tr key={i} className="bg-white dark:bg-zinc-950">
+            <tr key={i} className="hover:bg-white/[0.02] transition-colors">
               {row.map((cell, j) => (
-                <td
-                  key={j}
-                  className="px-4 py-3 text-zinc-600 dark:text-zinc-400"
-                >
+                <td key={j} className="px-4 py-3 text-zinc-400 text-[13px]">
                   {j === 0 ? (
-                    <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-xs font-medium text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+                    <code className="rounded-md bg-white/[0.06] px-1.5 py-0.5 text-[12px] font-medium text-[#3ECF8E]">
                       {cell}
                     </code>
                   ) : (
@@ -54,44 +51,52 @@ interface CalloutProps {
 
 const calloutStyles = {
   info: {
-    border: "border-blue-200 dark:border-blue-900",
-    bg: "bg-blue-50 dark:bg-blue-950/40",
+    border: "border-blue-500/20",
+    bg: "bg-blue-500/[0.05]",
     icon: "💡",
-    title: "border-blue-300 text-blue-800 dark:text-blue-400",
+    title: "text-blue-400",
+    iconBg: "bg-blue-500/10",
   },
   warning: {
-    border: "border-amber-200 dark:border-amber-900",
-    bg: "bg-amber-50 dark:bg-amber-950/40",
+    border: "border-amber-500/20",
+    bg: "bg-amber-500/[0.05]",
     icon: "⚠️",
-    title: "border-amber-300 text-amber-800 dark:text-amber-400",
+    title: "text-amber-400",
+    iconBg: "bg-amber-500/10",
   },
   danger: {
-    border: "border-red-200 dark:border-red-900",
-    bg: "bg-red-50 dark:bg-red-950/40",
+    border: "border-red-500/20",
+    bg: "bg-red-500/[0.05]",
     icon: "🚨",
-    title: "border-red-300 text-red-800 dark:text-red-400",
+    title: "text-red-400",
+    iconBg: "bg-red-500/10",
   },
   tip: {
-    border: "border-emerald-200 dark:border-emerald-900",
-    bg: "bg-emerald-50 dark:bg-emerald-950/40",
+    border: "border-[#3ECF8E]/20",
+    bg: "bg-[#3ECF8E]/[0.05]",
     icon: "✅",
-    title: "border-emerald-300 text-emerald-800 dark:text-emerald-400",
+    title: "text-[#3ECF8E]",
+    iconBg: "bg-[#3ECF8E]/10",
   },
 };
 
 export function Callout({ type = "info", title, children }: CalloutProps) {
   const style = calloutStyles[type];
   return (
-    <div className={`my-6 rounded-lg border ${style.border} ${style.bg} p-4`}>
+    <div
+      className={`my-6 rounded-xl border ${style.border} ${style.bg} p-4 not-prose`}
+    >
       {title && (
         <div
-          className={`mb-2 flex items-center gap-2 font-semibold ${style.title}`}
+          className={`mb-2 flex items-center gap-2 text-sm font-semibold ${style.title}`}
         >
           <span>{style.icon}</span>
           <span>{title}</span>
         </div>
       )}
-      <div className="text-sm text-zinc-700 dark:text-zinc-300">{children}</div>
+      <div className="text-[13px] text-zinc-300 leading-relaxed">
+        {children}
+      </div>
     </div>
   );
 }
@@ -114,13 +119,10 @@ export function Heading({
   };
 
   return (
-    <Tag
-      id={id}
-      className={`${sizes[level]} scroll-mt-20 text-zinc-900 dark:text-zinc-100`}
-    >
-      <a href={`#${id}`} className="group">
+    <Tag id={id} className={`${sizes[level]} scroll-mt-20 text-white`}>
+      <a href={`#${id}`} className="group no-underline">
         {children}
-        <span className="ml-2 text-zinc-300 opacity-0 transition-opacity group-hover:opacity-100 dark:text-zinc-600">
+        <span className="ml-2 text-zinc-600 opacity-0 transition-opacity group-hover:opacity-100">
           #
         </span>
       </a>
@@ -139,14 +141,12 @@ export function Step({
 }) {
   return (
     <div className="my-6 flex gap-4">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#3ECF8E]/10 border border-[#3ECF8E]/20 text-sm font-bold text-[#3ECF8E]">
         {number}
       </div>
       <div className="flex-1">
-        <h4 className="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-          {title}
-        </h4>
-        <div className="text-zinc-600 dark:text-zinc-400">{children}</div>
+        <h4 className="mb-2 text-lg font-semibold text-white">{title}</h4>
+        <div className="text-zinc-400">{children}</div>
       </div>
     </div>
   );
@@ -160,12 +160,11 @@ export function Badge({
   color?: "blue" | "green" | "amber" | "red" | "zinc";
 }) {
   const colors = {
-    blue: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
-    green:
-      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300",
-    amber: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300",
-    red: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-    zinc: "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300",
+    blue: "bg-blue-500/10 text-blue-400 border border-blue-500/20",
+    green: "bg-[#3ECF8E]/10 text-[#3ECF8E] border border-[#3ECF8E]/20",
+    amber: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+    red: "bg-red-500/10 text-red-400 border border-red-500/20",
+    zinc: "bg-white/[0.06] text-zinc-300 border border-white/[0.08]",
   };
   return (
     <span
@@ -190,36 +189,33 @@ export function EndpointCard({
   children?: React.ReactNode;
 }) {
   const methodColors = {
-    GET: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300",
-    POST: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
-    PUT: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300",
-    DELETE: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-    PATCH:
-      "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300",
+    GET: "bg-[#3ECF8E]/10 text-[#3ECF8E] border border-[#3ECF8E]/20",
+    POST: "bg-blue-500/10 text-blue-400 border border-blue-500/20",
+    PUT: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+    DELETE: "bg-red-500/10 text-red-400 border border-red-500/20",
+    PATCH: "bg-purple-500/10 text-purple-400 border border-purple-500/20",
   };
 
   return (
-    <div className="my-4 overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
-      <div className="flex items-center gap-3 border-b border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="my-4 overflow-hidden rounded-xl border border-white/[0.06] not-prose">
+      <div className="flex items-center gap-3 border-b border-white/[0.06] bg-white/[0.02] px-4 py-3">
         <span
-          className={`rounded px-2 py-0.5 text-xs font-bold ${methodColors[method]}`}
+          className={`rounded-md px-2 py-0.5 text-xs font-bold ${methodColors[method]}`}
         >
           {method}
         </span>
-        <code className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        <code className="text-sm font-semibold text-white font-mono">
           {path}
         </code>
         {auth && (
-          <span className="ml-auto rounded bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900 dark:text-amber-300">
+          <span className="ml-auto rounded-md bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 text-xs font-medium text-amber-400">
             Auth Required
           </span>
         )}
       </div>
       <div className="px-4 py-3">
         {description && (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            {description}
-          </p>
+          <p className="text-[13px] text-zinc-400">{description}</p>
         )}
         {children}
       </div>

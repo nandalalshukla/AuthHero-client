@@ -18,7 +18,7 @@ export function SocialButtons() {
       <button
         type="button"
         onClick={() => handleOAuth("google")}
-        className="flex-1 flex items-center justify-center p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-medium transition-all duration-200 backdrop-blur-sm group hover:cursor-pointer"
+        className="flex-1 flex items-center justify-center p-3 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1] text-white font-medium transition-all duration-200 group hover:cursor-pointer"
         aria-label="Continue with Google"
       >
         <FcGoogle className="text-xl group-hover:scale-110 transition-transform" />
@@ -26,7 +26,7 @@ export function SocialButtons() {
       <button
         type="button"
         onClick={() => handleOAuth("github")}
-        className="flex-1 flex items-center justify-center p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-medium transition-all duration-200 backdrop-blur-sm group hover:cursor-pointer"
+        className="flex-1 flex items-center justify-center p-3 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1] text-white font-medium transition-all duration-200 group hover:cursor-pointer"
         aria-label="Continue with GitHub"
       >
         <FaGithub className="text-xl group-hover:scale-110 transition-transform" />
@@ -34,7 +34,7 @@ export function SocialButtons() {
       <button
         type="button"
         onClick={() => handleOAuth("facebook")}
-        className="flex-1 flex items-center justify-center p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-medium transition-all duration-200 backdrop-blur-sm group hover:cursor-pointer"
+        className="flex-1 flex items-center justify-center p-3 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1] text-white font-medium transition-all duration-200 group hover:cursor-pointer"
         aria-label="Continue with Facebook"
       >
         <FaFacebook className="text-xl text-[#1877F2] group-hover:scale-110 transition-transform" />

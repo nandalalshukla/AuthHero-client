@@ -25,12 +25,12 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="flex flex-col justify-center items-center rounded-3xl border border-white/20 bg-white/0 backdrop-blur-3xl shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative">
-        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-wide drop-shadow-lg">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
+      <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative">
+        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-tight">
           Reset Password
         </h1>
-        <p className="text-center text-gray-300 mb-6 text-sm">
+        <p className="text-center text-zinc-400 mb-6 text-sm">
           Enter your email and we&apos;ll send you a link to reset your
           password.
         </p>
@@ -52,8 +52,8 @@ export default function ForgotPasswordPage() {
           />
         </form>
 
-        <div className="mt-6 text-sm text-gray-400">
-          <Link href="/login" className="text-white hover:underline">
+        <div className="mt-6 text-sm text-zinc-400">
+          <Link href="/login" className="text-[#3ECF8E] hover:underline">
             Back to Login
           </Link>
         </div>

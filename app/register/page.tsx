@@ -32,9 +32,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-y-auto pt-24 pb-10">
-      <div className="flex flex-col justify-center items-center rounded-3xl border border-white/20 bg-white/0 backdrop-blur-3xl shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-4 py-6 text-white relative my-auto">
-        <h1 className="text-white text-center mb-6 text-2xl font-semibold tracking-wide drop-shadow-lg">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
+      <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-4 py-6 text-white relative my-auto">
+        <h1 className="text-white text-center mb-6 text-2xl font-semibold tracking-tight">
           Signup
         </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
@@ -83,18 +83,18 @@ export default function RegisterPage() {
         </form>
 
         <div className="flex items-center w-full my-6">
-          <div className="grow h-px bg-white/20"></div>
-          <span className="px-3 text-sm text-gray-300 font-medium">
+          <div className="grow h-px bg-white/[0.06]"></div>
+          <span className="px-3 text-sm text-zinc-400 font-medium">
             Or continue with
           </span>
-          <div className="grow h-px bg-white/20"></div>
+          <div className="grow h-px bg-white/[0.06]"></div>
         </div>
 
         <SocialButtons />
 
-        <div className="mt-6 text-sm text-gray-400">
+        <div className="mt-6 text-sm text-zinc-400">
           Already have an account?{" "}
-          <Link href="/login" className="text-white hover:underline">
+          <Link href="/login" className="text-[#3ECF8E] hover:underline">
             Login
           </Link>
         </div>

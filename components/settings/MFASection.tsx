@@ -74,14 +74,14 @@ function EnableMFA() {
   if (!setupData) {
     return (
       <div className="space-y-3">
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-zinc-400">
           Add an extra layer of security to your account with a TOTP
           authenticator app.
         </p>
         <button
           onClick={handleSetup}
           disabled={setupMutation.isPending}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/20 hover:bg-white/10 text-white text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/[0.06] hover:bg-white/[0.04] text-white text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <FiShield className="text-base" />
           {setupMutation.isPending ? "Setting up..." : "Enable MFA"}
@@ -95,7 +95,7 @@ function EnableMFA() {
     <div className="space-y-5">
       {/* QR Code */}
       <div className="space-y-2">
-        <p className="text-sm text-gray-300">
+        <p className="text-sm text-zinc-300">
           Scan this QR code with your authenticator app:
         </p>
         <div className="bg-white rounded-xl p-3 w-fit">
@@ -108,20 +108,20 @@ function EnableMFA() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-zinc-500">
             Or enter this secret manually:{" "}
-            <code className="text-gray-300 bg-white/10 px-1.5 py-0.5 rounded text-xs">
+            <code className="text-zinc-300 bg-white/[0.06] px-1.5 py-0.5 rounded text-xs">
               {setupData.secret}
             </code>
           </p>
           <button
             type="button"
             onClick={handleCopySecret}
-            className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+            className="text-zinc-400 hover:text-white transition-colors cursor-pointer"
             title="Copy secret"
           >
             {copiedSecret ? (
-              <FiCheck className="text-green-400 text-xs" />
+              <FiCheck className="text-[#3ECF8E] text-xs" />
             ) : (
               <FiCopy className="text-xs" />
             )}
@@ -136,7 +136,7 @@ function EnableMFA() {
       <form onSubmit={handleVerify} className="space-y-3">
         <label
           htmlFor="mfa-verify"
-          className="block text-sm font-medium text-gray-200"
+          className="block text-sm font-medium text-zinc-300"
         >
           Enter the 6-digit code from your app to confirm:
         </label>
@@ -148,12 +148,12 @@ function EnableMFA() {
           value={verifyCode}
           onChange={(e) => setVerifyCode(e.target.value.replace(/\D/g, ""))}
           placeholder="000000"
-          className="w-full bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-300 tracking-[0.3em] text-center font-mono"
+          className="w-full bg-transparent border border-white/[0.06] rounded-lg px-3 py-2 text-white placeholder-zinc-500 outline-none focus:border-[#3ECF8E]/50 focus:ring-1 focus:ring-[#3ECF8E]/50 transition-all duration-300 tracking-[0.3em] text-center font-mono"
         />
         <button
           type="submit"
           disabled={verifyCode.length !== 6 || verifyMutation.isPending}
-          className="w-full py-2 rounded-xl border border-white/20 hover:bg-white/10 text-white font-semibold text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full py-2 rounded-lg bg-[#3ECF8E] text-[#1C1C1C] font-semibold text-sm transition-all duration-200 hover:bg-[#4EEEA0] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           {verifyMutation.isPending ? "Verifying..." : "Verify & Enable MFA"}
         </button>
@@ -168,15 +168,15 @@ function MFAEnabled() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
-        <FiShield className="text-green-400" />
-        <span className="text-sm text-green-400 font-medium">
+        <FiShield className="text-[#3ECF8E]" />
+        <span className="text-sm text-[#3ECF8E] font-medium">
           MFA is currently enabled
         </span>
       </div>
 
       <RegenerateBackupCodes />
 
-      <div className="border-t border-white/10 pt-4">
+      <div className="border-t border-white/[0.06] pt-4">
         <DisableMFA />
       </div>
     </div>
@@ -204,14 +204,14 @@ function RegenerateBackupCodes() {
   if (newCodes) {
     return (
       <div className="space-y-3">
-        <p className="text-sm text-gray-300 font-medium">
+        <p className="text-sm text-zinc-300 font-medium">
           Your new backup codes (save these — old codes no longer work):
         </p>
         <BackupCodesDisplay codes={newCodes} />
         <button
           type="button"
           onClick={() => setNewCodes(null)}
-          className="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
+          className="text-sm text-zinc-400 hover:text-white transition-colors cursor-pointer"
         >
           Done — I&apos;ve saved my codes
         </button>
@@ -221,7 +221,7 @@ function RegenerateBackupCodes() {
 
   return (
     <form onSubmit={handleRegenerate} className="space-y-3">
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-zinc-400">
         Lost your backup codes? Generate new ones (this invalidates old codes).
       </p>
       <div className="flex gap-2">
@@ -232,12 +232,12 @@ function RegenerateBackupCodes() {
           value={code}
           onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
           placeholder="TOTP code"
-          className="flex-1 bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-300 tracking-[0.3em] text-center font-mono text-sm"
+          className="flex-1 bg-transparent border border-white/[0.06] rounded-lg px-3 py-2 text-white placeholder-zinc-500 outline-none focus:border-[#3ECF8E]/50 focus:ring-1 focus:ring-[#3ECF8E]/50 transition-all duration-300 tracking-[0.3em] text-center font-mono text-sm"
         />
         <button
           type="submit"
           disabled={code.length !== 6 || regenMutation.isPending}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/20 hover:bg-white/10 text-white text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/[0.06] hover:bg-white/[0.04] text-white text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
         >
           <FiRefreshCw
             className={`text-base ${regenMutation.isPending ? "animate-spin" : ""}`}
@@ -272,7 +272,7 @@ function DisableMFA() {
       <form onSubmit={handleDisable} className="space-y-3">
         <label
           htmlFor="mfa-disable"
-          className="block text-sm font-medium text-gray-200"
+          className="block text-sm font-medium text-zinc-300"
         >
           {isBackupMode
             ? "Enter a backup code to disable MFA:"
@@ -291,7 +291,7 @@ function DisableMFA() {
             setCode(val);
           }}
           placeholder={isBackupMode ? "a1b2c3d4" : "000000"}
-          className="w-full bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-300 tracking-[0.3em] text-center font-mono"
+          className="w-full bg-transparent border border-white/[0.06] rounded-lg px-3 py-2 text-white placeholder-zinc-500 outline-none focus:border-[#3ECF8E]/50 focus:ring-1 focus:ring-[#3ECF8E]/50 transition-all duration-300 tracking-[0.3em] text-center font-mono"
         />
         <button
           type="submit"
@@ -309,7 +309,7 @@ function DisableMFA() {
           setIsBackupMode(!isBackupMode);
           setCode("");
         }}
-        className="text-xs text-gray-500 hover:text-gray-300 transition-colors cursor-pointer"
+        className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
       >
         {isBackupMode
           ? "Use authenticator code instead"
@@ -333,18 +333,18 @@ function BackupCodesDisplay({ codes }: { codes: string[] }) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-300 font-medium">
+        <p className="text-sm text-zinc-300 font-medium">
           Backup codes (save these somewhere safe):
         </p>
         <button
           type="button"
           onClick={handleCopyAll}
-          className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
         >
           {copied ? (
             <>
-              <FiCheck className="text-green-400" />
-              <span className="text-green-400">Copied!</span>
+              <FiCheck className="text-[#3ECF8E]" />
+              <span className="text-[#3ECF8E]">Copied!</span>
             </>
           ) : (
             <>
@@ -358,7 +358,7 @@ function BackupCodesDisplay({ codes }: { codes: string[] }) {
         {codes.map((code) => (
           <code
             key={code}
-            className="text-xs text-gray-300 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-center font-mono"
+            className="text-xs text-zinc-300 bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-1.5 text-center font-mono"
           >
             {code}
           </code>

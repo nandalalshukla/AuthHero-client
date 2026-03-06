@@ -29,9 +29,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-y-auto pt-24 pb-10">
-      <div className="flex flex-col justify-center items-center rounded-3xl border border-white/20 bg-white/0 backdrop-blur-3xl shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
-        <h1 className="text-white text-center mb-6 text-2xl font-semibold tracking-wide drop-shadow-lg">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
+      <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
+        <h1 className="text-white text-center mb-6 text-2xl font-semibold tracking-tight">
           Login
         </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
@@ -66,7 +66,7 @@ export default function LoginPage() {
           <div className="flex justify-end mb-4">
             <Link
               href="/forgot-password"
-              className="text-xs font-medium text-gray-400 hover:text-white transition-colors cursor-pointer"
+              className="text-xs font-medium text-zinc-400 hover:text-[#3ECF8E] transition-colors cursor-pointer"
             >
               Forgot password?
             </Link>
@@ -80,18 +80,18 @@ export default function LoginPage() {
         </form>
 
         <div className="flex items-center w-full my-6">
-          <div className="grow h-px bg-white/20"></div>
-          <span className="px-3 text-sm text-gray-300 font-medium">
+          <div className="grow h-px bg-white/[0.06]"></div>
+          <span className="px-3 text-sm text-zinc-400 font-medium">
             Or continue with
           </span>
-          <div className="grow h-px bg-white/20"></div>
+          <div className="grow h-px bg-white/[0.06]"></div>
         </div>
 
         <SocialButtons />
 
-        <div className="mt-6 text-sm text-gray-400">
+        <div className="mt-6 text-sm text-zinc-400">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-white hover:underline">
+          <Link href="/register" className="text-[#3ECF8E] hover:underline">
             Sign up
           </Link>
         </div>

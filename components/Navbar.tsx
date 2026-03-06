@@ -2,11 +2,61 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose, AiFillGithub } from "react-icons/ai";
-import { SiNpm } from "react-icons/si";
 import { useAuthStore } from "@/stores/auth.store";
 import { useLogout } from "@/hooks/useAuth";
 import ProfileDropdown from "@/components/ProfileDropdown";
 import { usePathname } from "next/navigation";
+
+function Logo() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0"
+    >
+      <path
+        d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"
+        fill="url(#nav-grad)"
+        fillOpacity="0.15"
+        stroke="#3ECF8E"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <rect
+        x="9.5"
+        y="10"
+        width="5"
+        height="4.5"
+        rx="0.75"
+        stroke="#3ECF8E"
+        strokeWidth="1.25"
+        fill="none"
+      />
+      <path
+        d="M10.25 10V8.5a1.75 1.75 0 013.5 0V10"
+        stroke="#4EEEA0"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+      <defs>
+        <linearGradient
+          id="nav-grad"
+          x1="3"
+          y1="2"
+          x2="21"
+          y2="24"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#3ECF8E" />
+          <stop offset="1" stopColor="#287050" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -14,117 +64,188 @@ const Navbar = () => {
   const { mutate: logout } = useLogout();
   const pathname = usePathname();
 
-  const handleNav = () => {
-    setNav(!nav);
-  };
+  const handleNav = () => setNav(!nav);
+
+  const navLinks = [
+    {
+      href: "/docs",
+      label: "Docs",
+      match: (p: string) =>
+        p?.startsWith("/docs") && p !== "/docs/api-reference",
+    },
+    {
+      href: "/docs/api-reference",
+      label: "API Reference",
+      match: (p: string) => p === "/docs/api-reference",
+    },
+  ];
 
   return (
-    <nav className="fixed left-0 top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950/80 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto flex justify-between items-center h-16 px-4 lg:px-6">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl">🔐</span>
-            <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">
-              AuthHero
-            </h1>
+    <nav className="fixed left-0 top-0 w-full z-50 border-b border-white/[0.06] bg-[#1C1C1C]/80 backdrop-blur-xl transition-colors duration-300">
+      <div className="max-w-[1400px] mx-auto flex justify-between items-center h-16 px-4 sm:px-6 lg:px-8">
+        {/* Left: Logo + nav links */}
+        <div className="flex items-center gap-8">
+          <Link
+            href="/"
+            className="flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-[#3ECF8E] rounded-sm"
+          >
+            <Logo />
+            <span className="text-base font-semibold text-white tracking-tight">
+              authhero
+            </span>
           </Link>
 
-          {/* Desktop Links */}
-          <ul className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <li>
-              <Link 
-                href="/docs" 
-                className={`transition-colors ${pathname?.startsWith('/docs') ? 'text-blue-600 dark:text-blue-400' : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'}`}
-              >
-                Docs
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="/docs/api-reference" 
-                className={`transition-colors ${pathname === '/docs/api-reference' ? 'text-blue-600 dark:text-blue-400' : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'}`}
-              >
-                API
-              </Link>
-            </li>
+          <ul className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`text-sm px-3 py-1.5 rounded-md transition-all duration-200 ${
+                    link.match(pathname)
+                      ? "text-white"
+                      : "text-zinc-400 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        {/* Right side Desktop */}
-        <div className="hidden md:flex items-center gap-5">
-          <div className="flex items-center gap-4 text-zinc-500 dark:text-zinc-400">
-            <a href="https://github.com/nandalalshukla/authhero" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-white transition-colors">
-              <AiFillGithub size={22} />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a href="https://www.npmjs.com/package/@nandalalshukla/auth-hero" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-white transition-colors">
-              <SiNpm size={20} />
-              <span className="sr-only">npm</span>
-            </a>
-          </div>
-
-          <div className="h-5 w-px bg-zinc-200 dark:bg-zinc-800" /> {/* Divider */}
+        {/* Right: GitHub + Auth */}
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="https://github.com/nandalalshukla/authhero"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5 rounded-md"
+          >
+            <AiFillGithub size={18} />
+          </a>
 
           {isAuthenticated ? (
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-zinc-600 dark:text-zinc-300">Hi, {user?.fullname?.split(" ")[0]}</span>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/settings"
+                className="text-sm font-medium px-4 py-1.5 rounded-md border border-[#3ECF8E] text-[#3ECF8E] hover:bg-[#3ECF8E]/10 transition-all"
+              >
+                Dashboard
+              </Link>
               <ProfileDropdown />
             </div>
           ) : (
             <div className="flex items-center gap-3">
               <Link
                 href="/login"
-                className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-colors"
+                className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5"
               >
-                Log in
+                Sign in
               </Link>
               <Link
                 href="/register"
-                className="text-sm font-medium px-4 py-2 rounded-md bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100 transition-colors"
+                className="text-sm font-medium px-4 py-1.5 rounded-md border border-[#3ECF8E] text-[#3ECF8E] hover:bg-[#3ECF8E]/10 transition-all"
               >
-                Sign up
+                Start your project
               </Link>
             </div>
           )}
         </div>
 
-        {/* Mobile Button */}
-        <div onClick={handleNav} className="block md:hidden z-10 cursor-pointer text-zinc-900 dark:text-white">
-          {nav ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
-        </div>
+        {/* Mobile hamburger */}
+        <button
+          onClick={handleNav}
+          className="block md:hidden z-10 text-white p-2 hover:bg-white/[0.06] rounded-lg transition-colors"
+        >
+          {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+        </button>
 
         {/* Mobile Menu */}
         <div
-          className={`absolute top-0 left-0 w-full h-screen bg-white dark:bg-zinc-950 flex flex-col pt-20 px-6 ease-in-out duration-300 md:hidden ${
+          className={`absolute top-0 left-0 w-full h-screen bg-[#1C1C1C] flex flex-col pt-20 px-6 ease-in-out duration-300 md:hidden border-r border-white/[0.06] ${
             nav ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <ul className="flex flex-col gap-6 text-lg font-medium text-zinc-900 dark:text-white">
-            <li><Link href="/" onClick={handleNav}>Home</Link></li>
-            <li><Link href="/docs" onClick={handleNav}>Documentation</Link></li>
-            <li><Link href="/docs/api-reference" onClick={handleNav}>API Reference</Link></li>
-            
-            <div className="h-px w-full bg-zinc-200 dark:bg-zinc-800 my-2" />
-            
+          <ul className="flex flex-col gap-1">
+            {[
+              { href: "/", label: "Home" },
+              { href: "/docs", label: "Documentation" },
+              { href: "/docs/api-reference", label: "API Reference" },
+            ].map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={handleNav}
+                  className={`block px-4 py-3 rounded-lg text-[15px] font-medium transition-colors ${
+                    pathname === link.href
+                      ? "text-[#3ECF8E] bg-[#3ECF8E]/10"
+                      : "text-zinc-300 hover:text-white hover:bg-white/[0.04]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+
+            <div className="h-px w-full bg-white/[0.06] my-3" />
+
             {isAuthenticated ? (
               <>
-                <li className="text-zinc-500 dark:text-zinc-400 text-sm font-normal uppercase tracking-wider">Account</li>
-                <li><Link href="/settings" onClick={handleNav}>Settings</Link></li>
-                <li><button onClick={() => { handleNav(); logout(); }} className="text-red-500 hover:text-red-600">Log out</button></li>
+                <li className="px-4 py-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
+                  Account
+                </li>
+                <li>
+                  <Link
+                    href="/settings"
+                    onClick={handleNav}
+                    className="block px-4 py-3 rounded-lg text-[15px] font-medium text-zinc-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      handleNav();
+                      logout();
+                    }}
+                    className="w-full text-left px-4 py-3 rounded-lg text-[15px] font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                  >
+                    Log out
+                  </button>
+                </li>
               </>
             ) : (
               <>
-                <li><Link href="/login" onClick={handleNav}>Log in</Link></li>
-                <li><Link href="/register" onClick={handleNav} className="text-blue-600 dark:text-blue-400">Sign up</Link></li>
+                <li>
+                  <Link
+                    href="/login"
+                    onClick={handleNav}
+                    className="block px-4 py-3 rounded-lg text-[15px] font-medium text-zinc-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                  >
+                    Sign in
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/register"
+                    onClick={handleNav}
+                    className="block px-4 py-3 rounded-lg text-[15px] font-medium text-[#3ECF8E] hover:bg-[#3ECF8E]/10 transition-colors"
+                  >
+                    Start your project
+                  </Link>
+                </li>
               </>
             )}
-            
-            <div className="flex items-center gap-6 mt-4 text-zinc-500 dark:text-zinc-400">
-              <a href="https://github.com/nandalalshukla/authhero" target="_blank" rel="noopener noreferrer">
-                <AiFillGithub size={28} />
-              </a>
-              <a href="https://www.npmjs.com/package/@nandalalshukla/auth-hero" target="_blank" rel="noopener noreferrer">
-                <SiNpm size={26} />
+
+            <div className="flex items-center gap-4 mt-6 px-4">
+              <a
+                href="https://github.com/nandalalshukla/authhero"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-500 hover:text-white transition-colors"
+              >
+                <AiFillGithub size={22} />
               </a>
             </div>
           </ul>

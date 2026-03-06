@@ -43,11 +43,11 @@ function ResetPasswordForm() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center rounded-3xl border border-white/20 bg-white/0 backdrop-blur-3xl shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative">
-      <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-wide drop-shadow-lg">
+    <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative">
+      <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-tight">
         Reset Password
       </h1>
-      <p className="text-center text-gray-300 mb-6 text-sm">
+      <p className="text-center text-zinc-400 mb-6 text-sm">
         Enter your new password below.
       </p>
 
@@ -88,8 +88,8 @@ function ResetPasswordForm() {
         />
       </form>
 
-      <div className="mt-6 text-sm text-gray-400">
-        <Link href="/login" className="text-white hover:underline">
+      <div className="mt-6 text-sm text-zinc-400">
+        <Link href="/login" className="text-[#3ECF8E] hover:underline">
           Back to Login
         </Link>
       </div>
@@ -99,11 +99,11 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
       <Suspense
         fallback={
-          <div className="flex justify-center items-center rounded-3xl border border-white/20 bg-white/0 backdrop-blur-3xl shadow-2xl h-[20rem] max-w-sm w-[90vw] mx-auto text-white">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white" />
+          <div className="flex justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-[20rem] max-w-sm w-[90vw] mx-auto text-white">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#3ECF8E]" />
           </div>
         }
       >

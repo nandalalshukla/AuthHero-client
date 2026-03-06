@@ -25,7 +25,7 @@ export default function SettingsPage() {
   if (!isAuthenticated || !user) return null;
 
   return (
-    <div className="min-h-screen w-full flex items-start justify-center bg-black/40 backdrop-blur-sm pt-24 pb-10">
+    <div className="min-h-screen w-full flex items-start justify-center bg-[#1C1C1C] pt-24 pb-10">
       <div className="w-full max-w-xl mx-auto px-4 space-y-6">
         {/* Header */}
         <h1 className="text-2xl font-semibold text-white tracking-wide">
@@ -39,7 +39,7 @@ export default function SettingsPage() {
           title="Account"
         >
           <div className="space-y-3 text-sm">
-                      <InfoRow label="Name" value={user.fullname} />
+            <InfoRow label="Name" value={user.fullname} />
             <InfoRow label="Email" value={user.email} />
             <InfoRow
               label="Email Verified"
@@ -100,7 +100,7 @@ function SettingsCard({ id, icon, title, children }: SettingsCardProps) {
   return (
     <section
       id={id}
-      className="rounded-2xl border border-white/15 bg-white/[0.02] backdrop-blur-3xl p-6 space-y-5"
+      className="rounded-xl border border-white/[0.06] bg-[#232323] p-6 space-y-5"
     >
       <div className="flex items-center gap-2.5 text-white">
         {icon}
@@ -119,7 +119,7 @@ interface InfoRowProps {
 function InfoRow({ label, value }: InfoRowProps) {
   return (
     <div className="flex justify-between">
-      <span className="text-gray-400">{label}</span>
+      <span className="text-zinc-400">{label}</span>
       <span className="text-white">{value}</span>
     </div>
   );

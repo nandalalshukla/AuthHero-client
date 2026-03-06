@@ -35,12 +35,12 @@ export default function ReactivatePage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-y-auto pt-24 pb-10">
-      <div className="flex flex-col justify-center items-center rounded-3xl border border-white/20 bg-white/0 backdrop-blur-3xl shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
-        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-wide drop-shadow-lg">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
+      <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
+        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-tight">
           Reactivate Account
         </h1>
-        <p className="text-sm text-gray-400 text-center mb-6">
+        <p className="text-sm text-zinc-400 text-center mb-6">
           Enter your credentials to restore your deactivated account.
         </p>
 
@@ -80,9 +80,9 @@ export default function ReactivatePage() {
           />
         </form>
 
-        <div className="mt-6 text-sm text-gray-400">
+        <div className="mt-6 text-sm text-zinc-400">
           Remember your account is active?{" "}
-          <Link href="/login" className="text-white hover:underline">
+          <Link href="/login" className="text-[#3ECF8E] hover:underline">
             Log in
           </Link>
         </div>

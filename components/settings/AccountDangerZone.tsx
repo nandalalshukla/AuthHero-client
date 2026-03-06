@@ -26,7 +26,7 @@ export default function AccountDangerZone() {
   return (
     <div className="space-y-6">
       <DeactivateSection />
-      <div className="border-t border-white/10 pt-5">
+      <div className="border-t border-white/[0.06] pt-5">
         <DeleteSection />
       </div>
     </div>
@@ -57,7 +57,7 @@ function DeactivateSection() {
   if (!expanded) {
     return (
       <div className="space-y-2">
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-zinc-400">
           Temporarily disable your account. You can reactivate it later by
           logging in again.
         </p>
@@ -121,7 +121,7 @@ function DeactivateSection() {
               setExpanded(false);
               reset();
             }}
-            className="px-4 py-2 rounded-xl border border-white/20 hover:bg-white/10 text-white text-sm font-medium transition-all duration-200 cursor-pointer"
+            className="px-4 py-2 rounded-lg border border-white/[0.06] hover:bg-white/[0.04] text-white text-sm font-medium transition-all duration-200 cursor-pointer"
           >
             Cancel
           </button>
@@ -155,7 +155,7 @@ function DeleteSection() {
   if (!expanded) {
     return (
       <div className="space-y-2">
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-zinc-400">
           Permanently delete your account and all associated data. This action
           cannot be undone.
         </p>
@@ -231,7 +231,7 @@ function DeleteSection() {
               setExpanded(false);
               reset();
             }}
-            className="px-4 py-2 rounded-xl border border-white/20 hover:bg-white/10 text-white text-sm font-medium transition-all duration-200 cursor-pointer"
+            className="px-4 py-2 rounded-lg border border-white/[0.06] hover:bg-white/[0.04] text-white text-sm font-medium transition-all duration-200 cursor-pointer"
           >
             Cancel
           </button>

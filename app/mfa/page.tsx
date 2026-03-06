@@ -47,14 +47,14 @@ export default function MFAChallengePage() {
   const isValidLength = code.length === expectedLength;
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-y-auto pt-24 pb-10">
-      <div className="flex flex-col justify-center items-center rounded-3xl border border-white/20 bg-white/0 backdrop-blur-3xl shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
+      <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
         {/* Icon */}
-        <div className="w-14 h-14 rounded-2xl border border-white/20 bg-white/5 flex items-center justify-center mb-4">
-          <FiShield className="text-2xl text-white" />
+        <div className="w-14 h-14 rounded-2xl border border-white/[0.06] bg-[#3ECF8E]/10 flex items-center justify-center mb-4">
+          <FiShield className="text-2xl text-[#3ECF8E]" />
         </div>
 
-        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-wide drop-shadow-lg">
+        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-tight">
           Two-Factor Authentication
         </h1>
         <p className="text-gray-400 text-sm text-center mb-6">
@@ -79,14 +79,14 @@ export default function MFAChallengePage() {
               }}
               placeholder={isBackupMode ? "a1b2c3d4" : "000000"}
               autoComplete="one-time-code"
-              className="w-full bg-transparent border border-white/20 rounded-xl px-3 py-3 text-white placeholder-gray-400 outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-300 tracking-[0.3em] text-center font-mono text-lg"
+              className="w-full bg-transparent border border-white/[0.06] rounded-xl px-3 py-3 text-white placeholder-zinc-500 outline-none focus:border-[#3ECF8E]/50 focus:ring-1 focus:ring-[#3ECF8E]/50 transition-all duration-300 tracking-[0.3em] text-center font-mono text-lg"
             />
           </div>
 
           <button
             type="submit"
             disabled={!isValidLength || challengeMutation.isPending}
-            className="w-full py-2.5 rounded-xl border border-white/20 hover:bg-white/10 text-white font-semibold text-md backdrop-blur-sm transition-all duration-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2.5 rounded-lg border border-white/[0.06] bg-[#3ECF8E] text-[#1C1C1C] font-semibold text-md transition-all duration-200 hover:bg-[#4EEEA0] hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {challengeMutation.isPending ? "Verifying..." : "Verify"}
           </button>
@@ -99,7 +99,7 @@ export default function MFAChallengePage() {
             setIsBackupMode(!isBackupMode);
             setCode("");
           }}
-          className="mt-4 text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
+          className="mt-4 text-sm text-zinc-400 hover:text-[#3ECF8E] transition-colors cursor-pointer"
         >
           {isBackupMode
             ? "Use authenticator app instead"
@@ -109,7 +109,7 @@ export default function MFAChallengePage() {
         {/* Back to login */}
         <Link
           href="/login"
-          className="mt-3 text-sm text-gray-500 hover:text-gray-300 transition-colors"
+          className="mt-3 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
         >
           Back to login
         </Link>
