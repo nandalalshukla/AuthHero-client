@@ -25,7 +25,7 @@ export default function SettingsPage() {
   if (!isAuthenticated || !user) return null;
 
   return (
-    <div className="min-h-screen w-full flex items-start justify-center bg-[#1C1C1C] pt-24 pb-10">
+    <div className="page-grid relative min-h-screen w-full flex items-start justify-center bg-[#1C1C1C] pt-24 pb-10">
       <div className="w-full max-w-xl mx-auto px-4 space-y-6">
         {/* Header */}
         <h1 className="text-2xl font-semibold text-white tracking-wide">
@@ -100,7 +100,7 @@ function SettingsCard({ id, icon, title, children }: SettingsCardProps) {
   return (
     <section
       id={id}
-      className="rounded-xl border border-white/[0.06] bg-[#232323] p-6 space-y-5"
+      className="rounded-lg border border-[#222] bg-[#161616] p-6 space-y-5"
     >
       <div className="flex items-center gap-2.5 text-white">
         {icon}

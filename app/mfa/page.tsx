@@ -47,14 +47,14 @@ export default function MFAChallengePage() {
   const isValidLength = code.length === expectedLength;
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
-      <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
+    <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
+      <div className="relative z-10 flex flex-col justify-center items-center rounded-lg border border-[#222] bg-[#161616] h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white my-auto">
         {/* Icon */}
-        <div className="w-14 h-14 rounded-2xl border border-white/[0.06] bg-[#3ECF8E]/10 flex items-center justify-center mb-4">
+        <div className="w-14 h-14 rounded-xl border border-[#222] bg-[#3ECF8E]/10 flex items-center justify-center mb-4">
           <FiShield className="text-2xl text-[#3ECF8E]" />
         </div>
 
-        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-tight">
+        <h1 className="text-white text-center mb-2 text-xl font-medium tracking-tight">
           Two-Factor Authentication
         </h1>
         <p className="text-gray-400 text-sm text-center mb-6">

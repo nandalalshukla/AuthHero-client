@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { FiMail, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { useVerifyEmail } from "@/hooks/useAuth";
 
 function VerifyEmailContent() {
@@ -24,10 +25,12 @@ function VerifyEmailContent() {
   // ─── No token in URL ───
   if (!token) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
-        <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
-          <div className="text-5xl mb-4">📧</div>
-          <h1 className="text-2xl font-semibold mb-3">Check your email</h1>
+      <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
+        <div className="relative z-10 flex flex-col items-center rounded-lg border border-[#222] bg-[#161616] max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
+          <div className="w-12 h-12 rounded-lg bg-[#3ECF8E]/10 border border-[#3ECF8E]/20 flex items-center justify-center mb-4">
+            <FiMail className="w-5 h-5 text-[#3ECF8E]" />
+          </div>
+          <h1 className="text-xl font-medium mb-3">Check your email</h1>
           <p className="text-zinc-400 text-center text-sm mb-6">
             We&apos;ve sent a verification link to your email address. Click the
             link to verify your account.
@@ -46,10 +49,10 @@ function VerifyEmailContent() {
   // ─── Verifying ───
   if (verifyMutation.isPending) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
-        <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
+      <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
+        <div className="relative z-10 flex flex-col items-center rounded-lg border border-[#222] bg-[#161616] max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3ECF8E] mb-4" />
-          <h1 className="text-2xl font-semibold mb-2">Verifying...</h1>
+          <h1 className="text-xl font-medium mb-2">Verifying...</h1>
           <p className="text-zinc-400 text-sm">
             Please wait while we verify your email.
           </p>
@@ -61,10 +64,12 @@ function VerifyEmailContent() {
   // ─── Error ───
   if (verifyMutation.isError) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
-        <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
-          <div className="text-5xl mb-4">❌</div>
-          <h1 className="text-2xl font-semibold mb-3">Verification Failed</h1>
+      <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
+        <div className="relative z-10 flex flex-col items-center rounded-lg border border-[#222] bg-[#161616] max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
+          <div className="w-12 h-12 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-4">
+            <FiAlertCircle className="w-5 h-5 text-red-400" />
+          </div>
+          <h1 className="text-xl font-medium mb-3">Verification Failed</h1>
           <p className="text-zinc-400 text-center text-sm mb-6">
             The link may have expired or is invalid. Please try registering
             again or request a new verification email.
@@ -82,10 +87,12 @@ function VerifyEmailContent() {
 
   // ─── Success ───
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
-      <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
-        <div className="text-5xl mb-4">✅</div>
-        <h1 className="text-2xl font-semibold mb-3">Email Verified!</h1>
+    <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
+      <div className="relative z-10 flex flex-col items-center rounded-lg border border-[#222] bg-[#161616] max-w-sm w-[90vw] mx-auto px-6 py-10 text-white">
+        <div className="w-12 h-12 rounded-lg bg-[#3ECF8E]/10 border border-[#3ECF8E]/20 flex items-center justify-center mb-4">
+          <FiCheckCircle className="w-5 h-5 text-[#3ECF8E]" />
+        </div>
+        <h1 className="text-xl font-medium mb-3">Email Verified!</h1>
         <p className="text-zinc-400 text-center text-sm mb-6">
           Your email has been verified successfully. You can now log in.
         </p>
@@ -104,8 +111,8 @@ export default function VerifyEmailPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3ECF8E]" />
+        <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
+          <div className="relative z-10 animate-spin rounded-full h-12 w-12 border-b-2 border-[#3ECF8E]" />
         </div>
       }
     >

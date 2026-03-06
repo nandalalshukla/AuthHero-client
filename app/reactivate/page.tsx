@@ -35,9 +35,9 @@ export default function ReactivatePage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
-      <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative my-auto">
-        <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-tight">
+    <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C] overflow-y-auto pt-24 pb-10">
+      <div className="relative z-10 flex flex-col justify-center items-center rounded-lg border border-[#222] bg-[#161616] h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white my-auto">
+        <h1 className="text-white text-center mb-2 text-xl font-medium tracking-tight">
           Reactivate Account
         </h1>
         <p className="text-sm text-zinc-400 text-center mb-6">

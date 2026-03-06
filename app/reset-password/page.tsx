@@ -43,8 +43,8 @@ function ResetPasswordForm() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white relative">
-      <h1 className="text-white text-center mb-2 text-2xl font-semibold tracking-tight">
+    <div className="relative z-10 flex flex-col justify-center items-center rounded-lg border border-[#222] bg-[#161616] h-fit max-w-sm w-[90vw] mx-auto px-6 py-8 text-white">
+      <h1 className="text-white text-center mb-2 text-xl font-medium tracking-tight">
         Reset Password
       </h1>
       <p className="text-center text-zinc-400 mb-6 text-sm">
@@ -99,10 +99,10 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
+    <div className="page-grid relative min-h-screen w-full flex items-center justify-center bg-[#1C1C1C]">
       <Suspense
         fallback={
-          <div className="flex justify-center items-center rounded-xl border border-white/[0.06] bg-[#232323] shadow-2xl h-[20rem] max-w-sm w-[90vw] mx-auto text-white">
+          <div className="flex justify-center items-center rounded-lg border border-[#222] bg-[#161616] h-[20rem] max-w-sm w-[90vw] mx-auto text-white">
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#3ECF8E]" />
           </div>
         }

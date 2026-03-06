@@ -245,3 +245,80 @@ body {
   color: #a1a1aa;
   font-style: italic;
 }
+
+/* ── Section Grid (interactive hover glow) ── */
+.section-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(62, 207, 142, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 207, 142, 0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(
+    ellipse 80% 50% at 50% 50%,
+    black 10%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  transition: opacity 0.6s ease;
+}
+.section-grid:hover::before {
+  opacity: 1;
+}
+
+/* ── Page Grid (subtle full-page grid for auth pages) ── */
+.page-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(62, 207, 142, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 207, 142, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Matrix Rain Lines ── */
+@keyframes matrix-fall {
+  0% {
+    transform: translateY(-120px);
+  }
+  100% {
+    transform: translateY(calc(100vh + 120px));
+  }
+}
+.matrix-line {
+  position: absolute;
+  width: 1px;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(62, 207, 142, 0.06),
+    transparent
+  );
+  animation: matrix-fall linear infinite;
+  pointer-events: none;
+}
+
+/* ── Tech Tooltip ── */
+.tech-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  z-index: 50;
+}
+.group:hover .tech-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
