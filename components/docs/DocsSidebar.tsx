@@ -77,11 +77,19 @@ export default function DocsSidebar({
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-full w-72 border-r border-zinc-200 bg-white pt-16 transition-transform duration-200 dark:border-zinc-800 dark:bg-zinc-950 lg:sticky lg:top-16 lg:z-0 lg:h-[calc(100vh-4rem)] lg:translate-x-0 ${
+        className={`fixed top-0 left-0 z-40 h-full w-72 lg:w-64 border-r border-zinc-200 bg-white transition-transform duration-200 dark:border-zinc-800 dark:bg-zinc-950 lg:sticky lg:top-16 lg:z-0 lg:h-[calc(100vh-4rem)] lg:translate-x-0 pt-16 lg:pt-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <nav className="h-full overflow-y-auto px-4 py-6 text-sm">
+        <div className="flex lg:hidden items-center justify-between p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 absolute top-0 w-full h-16">
+          <span className="font-semibold text-zinc-900 dark:text-white">Documentation</span>
+          <button onClick={onClose} className="p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav className="h-full overflow-y-auto px-4 py-6 text-sm lg:pt-8 mt-16 lg:mt-0 pb-20">
           {sections.map((section) => (
             <div key={section.heading} className="mb-6">
               <h4 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
