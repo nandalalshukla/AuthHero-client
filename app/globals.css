@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 
 /* ── Class-based dark mode for Tailwind v4 ── */
@@ -13,6 +14,7 @@
   --color-surface-light: #232323;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: "Sora", var(--font-geist-sans);
 }
 
 body {
@@ -21,6 +23,10 @@ body {
   font-feature-settings:
     "rlig" 1,
     "calt" 1;
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 ::selection {
@@ -321,4 +327,32 @@ body {
 .group:hover .tech-tooltip {
   opacity: 1;
   transform: translateX(-50%) scale(1);
+}
+
+/* ── Hero Grid (green-tinted grid for hero section) ── */
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(62, 207, 142, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 207, 142, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(
+    ellipse 90% 60% at 50% 40%,
+    black 20%,
+    transparent 80%
+  );
+}
+
+/* ── Slow bounce for scroll indicator ── */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateX(-50%) translateY(-4px);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateX(-50%) translateY(4px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 2.4s ease-in-out infinite;
 }

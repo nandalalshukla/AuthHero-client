@@ -8,6 +8,7 @@ export interface PublicUser {
   emailVerified: boolean;
   mfaEnabled: boolean;
   createdAt: string;
+  hasPassword: boolean;
 }
 
 export interface RegisterResponse {

@@ -80,11 +80,20 @@ export default function ReactivatePage() {
           />
         </form>
 
-        <div className="mt-6 text-sm text-zinc-400">
-          Remember your account is active?{" "}
-          <Link href="/login" className="text-[#3ECF8E] hover:underline">
-            Log in
-          </Link>
+        <div className="mt-6 text-sm text-zinc-400 text-center space-y-2">
+          <p className="text-xs text-zinc-500">
+            Signed up with Google, GitHub, or Facebook?{" "}
+            <Link href="/login" className="text-[#3ECF8E] hover:underline">
+              Log in with your social account
+            </Link>{" "}
+            to reactivate automatically.
+          </p>
+          <p>
+            Remember your account is active?{" "}
+            <Link href="/login" className="text-[#3ECF8E] hover:underline">
+              Log in
+            </Link>
+          </p>
         </div>
       </div>
     </div>

@@ -15,10 +15,15 @@ import {
 import { useChangePassword } from "@/hooks/useAuth";
 
 // ─── ChangePasswordForm ───
-// Renders an inline form for changing the user's password.
-// Uses the same FormField / useZodForm pattern as login/register pages.
+// Renders an inline form for changing (or setting for the first time) the
+// user's password. OAuth-only users have no existing password so the
+// "Current Password" field is hidden and the action becomes "Set Password".
 
-export default function ChangePasswordForm() {
+export default function ChangePasswordForm({
+  hasPassword,
+}: {
+  hasPassword: boolean;
+}) {
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
 
@@ -39,30 +44,42 @@ export default function ChangePasswordForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1" noValidate>
-      <FormField
-        label="Current Password"
-        name="currentPassword"
-        type={showCurrent ? "text" : "password"}
-        placeholder="Enter current password"
-        register={register}
-        error={errors.currentPassword?.message}
-        rightElement={
-          showCurrent ? (
-            <IoEye onClick={() => setShowCurrent(false)} className="text-xl" />
-          ) : (
-            <IoMdEyeOff
-              onClick={() => setShowCurrent(true)}
-              className="text-xl"
-            />
-          )
-        }
-      />
+      {!hasPassword && (
+        <p className="mb-3 rounded-lg border border-blue-500/20 bg-blue-500/5 px-3 py-2 text-xs text-blue-300">
+          Your account uses social login and has no password yet. Set one below
+          to enable password-based login, deactivation, and deletion.
+        </p>
+      )}
+
+      {hasPassword && (
+        <FormField
+          label="Current Password"
+          name="currentPassword"
+          type={showCurrent ? "text" : "password"}
+          placeholder="Enter current password"
+          register={register}
+          error={errors.currentPassword?.message}
+          rightElement={
+            showCurrent ? (
+              <IoEye
+                onClick={() => setShowCurrent(false)}
+                className="text-xl"
+              />
+            ) : (
+              <IoMdEyeOff
+                onClick={() => setShowCurrent(true)}
+                className="text-xl"
+              />
+            )
+          }
+        />
+      )}
 
       <FormField
         label="New Password"
         name="newPassword"
         type={showNew ? "text" : "password"}
-        placeholder="Enter new password"
+        placeholder={hasPassword ? "Enter new password" : "Set a password"}
         register={register}
         error={errors.newPassword?.message}
         rightElement={
@@ -75,8 +92,8 @@ export default function ChangePasswordForm() {
       />
 
       <SubmitButton
-        label="Change Password"
-        loadingLabel="Changing..."
+        label={hasPassword ? "Change Password" : "Set Password"}
+        loadingLabel={hasPassword ? "Changing..." : "Setting..."}
         isLoading={mutation.isPending}
       />
     </form>

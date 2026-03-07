@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import CodeBlock from "@/components/docs/CodeBlock";
-import { Callout } from "@/components/docs/DocsComponents";
+import { Callout, Step, Badge } from "@/components/docs/DocsComponents";
 import {
   FiKey,
   FiGlobe,
@@ -60,13 +60,56 @@ export default function DocsPage() {
           <span className="flex h-1.5 w-1.5 rounded-full bg-[#3ECF8E] animate-pulse" />
           Documentation
         </div>
-        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        <h1 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
           AuthHero Documentation
         </h1>
         <p className="mt-4 text-lg text-zinc-400 leading-relaxed">
           Drop-in authentication for Express apps. Email/password, OAuth, MFA —
           all production-ready, fully typed, and secured out of the box.
         </p>
+        <div className="mt-5 flex flex-wrap gap-2 not-prose">
+          {["Open Source", "Self-hosted", "TypeScript", "MIT Licensed"].map(
+            (item) => (
+              <Badge key={item} color="zinc">
+                {item}
+              </Badge>
+            ),
+          )}
+        </div>
+      </div>
+
+      {/* Docs map */}
+      <div className="grid gap-4 sm:grid-cols-3 not-prose mb-12">
+        {[
+          {
+            title: "Get Running",
+            desc: "Install, configure, and ship your first auth flow.",
+            href: "/docs/getting-started",
+          },
+          {
+            title: "Integrate Frontend",
+            desc: "Session handling, forms, and secure UI patterns.",
+            href: "/docs/frontend",
+          },
+          {
+            title: "Production Ready",
+            desc: "Security, deployment, and scaling guidance.",
+            href: "/docs/deployment",
+          },
+        ].map((card) => (
+          <Link
+            key={card.title}
+            href={card.href}
+            className="group rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#3ECF8E]/20 hover:bg-[#3ECF8E]/[0.03] no-underline"
+          >
+            <h3 className="text-sm font-semibold text-white group-hover:text-[#3ECF8E]">
+              {card.title}
+            </h3>
+            <p className="mt-2 text-[13px] text-zinc-400 leading-relaxed">
+              {card.desc}
+            </p>
+          </Link>
+        ))}
       </div>
 
       {/* Quick install */}
@@ -87,6 +130,27 @@ auth.app.listen(3000);`}
         password reset, OAuth (Google/GitHub/Facebook), MFA (TOTP), session
         management, and rate limiting — all running on port 3000.
       </p>
+
+      {/* Guided path */}
+      <h2 className="mt-12 mb-4 text-2xl font-bold text-white">Guided setup</h2>
+      <div className="not-prose">
+        <Step number={1} title="Configure your environment">
+          <p className="text-[13px] text-zinc-400">
+            Add your database URL, Redis URL, and email provider settings.
+          </p>
+        </Step>
+        <Step number={2} title="Choose your auth flows">
+          <p className="text-[13px] text-zinc-400">
+            Enable email/password, OAuth providers, and MFA based on your
+            product needs.
+          </p>
+        </Step>
+        <Step number={3} title="Connect your frontend">
+          <p className="text-[13px] text-zinc-400">
+            Use the client hooks, cookie sessions, and secure form patterns.
+          </p>
+        </Step>
+      </div>
 
       {/* Feature grid */}
       <h2 className="mt-12 mb-6 text-2xl font-bold text-white">Features</h2>
@@ -233,6 +297,14 @@ auth.app.listen(3000);`}
             npx create-authhero my-app
           </code>{" "}
           to scaffold a complete project with auto-generated secrets.
+        </p>
+      </Callout>
+
+      <Callout type="info" title="Need a deeper dive?">
+        <p>
+          Jump into the architecture, security, and deployment guides to see how
+          AuthHero handles rate limiting, MFA, and session rotation in
+          production.
         </p>
       </Callout>
     </>

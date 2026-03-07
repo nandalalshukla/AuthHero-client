@@ -56,13 +56,13 @@ export default function SettingsPage() {
           </div>
         </SettingsCard>
 
-        {/* Change Password */}
+        {/* Change Password / Set Password */}
         <SettingsCard
           id="password"
           icon={<FiLock className="text-lg" />}
-          title="Change Password"
+          title={user.hasPassword ? "Change Password" : "Set Password"}
         >
-          <ChangePasswordForm />
+          <ChangePasswordForm hasPassword={user.hasPassword} />
         </SettingsCard>
 
         {/* MFA */}
@@ -80,7 +80,7 @@ export default function SettingsPage() {
           icon={<FiAlertTriangle className="text-lg text-red-400" />}
           title="Danger Zone"
         >
-          <AccountDangerZone />
+          <AccountDangerZone hasPassword={user.hasPassword} />
         </SettingsCard>
       </div>
     </div>

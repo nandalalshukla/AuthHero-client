@@ -22,12 +22,16 @@ import { useDeactivateAccount, useDeleteAccount } from "@/hooks/useAuth";
 // Each action is behind a confirmation toggle to prevent accidental clicks.
 // Follows the same FormField + useZodForm + mutation pattern as other forms.
 
-export default function AccountDangerZone() {
+export default function AccountDangerZone({
+  hasPassword,
+}: {
+  hasPassword: boolean;
+}) {
   return (
     <div className="space-y-6">
-      <DeactivateSection />
+      <DeactivateSection hasPassword={hasPassword} />
       <div className="border-t border-white/[0.06] pt-5">
-        <DeleteSection />
+        <DeleteSection hasPassword={hasPassword} />
       </div>
     </div>
   );
@@ -35,7 +39,7 @@ export default function AccountDangerZone() {
 
 // ─── Deactivate Account ───
 
-function DeactivateSection() {
+function DeactivateSection({ hasPassword }: { hasPassword: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -88,27 +92,29 @@ function DeactivateSection() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-1" noValidate>
-        <FormField
-          label="Confirm your password"
-          name="password"
-          type={showPassword ? "text" : "password"}
-          placeholder="Enter your password"
-          register={register}
-          error={errors.password?.message}
-          rightElement={
-            showPassword ? (
-              <IoEye
-                onClick={() => setShowPassword(false)}
-                className="text-xl"
-              />
-            ) : (
-              <IoMdEyeOff
-                onClick={() => setShowPassword(true)}
-                className="text-xl"
-              />
-            )
-          }
-        />
+        {hasPassword && (
+          <FormField
+            label="Confirm your password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter your password"
+            register={register}
+            error={errors.password?.message}
+            rightElement={
+              showPassword ? (
+                <IoEye
+                  onClick={() => setShowPassword(false)}
+                  className="text-xl"
+                />
+              ) : (
+                <IoMdEyeOff
+                  onClick={() => setShowPassword(true)}
+                  className="text-xl"
+                />
+              )
+            }
+          />
+        )}
         <div className="flex gap-2">
           <SubmitButton
             label="Deactivate Account"
@@ -133,7 +139,7 @@ function DeactivateSection() {
 
 // ─── Delete Account ───
 
-function DeleteSection() {
+function DeleteSection({ hasPassword }: { hasPassword: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -186,27 +192,29 @@ function DeleteSection() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-1" noValidate>
-        <FormField
-          label="Confirm your password"
-          name="password"
-          type={showPassword ? "text" : "password"}
-          placeholder="Enter your password"
-          register={register}
-          error={errors.password?.message}
-          rightElement={
-            showPassword ? (
-              <IoEye
-                onClick={() => setShowPassword(false)}
-                className="text-xl"
-              />
-            ) : (
-              <IoMdEyeOff
-                onClick={() => setShowPassword(true)}
-                className="text-xl"
-              />
-            )
-          }
-        />
+        {hasPassword && (
+          <FormField
+            label="Confirm your password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter your password"
+            register={register}
+            error={errors.password?.message}
+            rightElement={
+              showPassword ? (
+                <IoEye
+                  onClick={() => setShowPassword(false)}
+                  className="text-xl"
+                />
+              ) : (
+                <IoMdEyeOff
+                  onClick={() => setShowPassword(true)}
+                  className="text-xl"
+                />
+              )
+            }
+          />
+        )}
         <FormField
           label='Type "DELETE MY ACCOUNT" to confirm'
           name="confirmation"

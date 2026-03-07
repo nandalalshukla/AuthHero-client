@@ -225,10 +225,15 @@ export function useLogoutAll() {
 }
 
 export function useChangePassword() {
+  const setUser = useAuthStore((s) => s.setUser);
+
   return useMutation({
     mutationFn: authApi.changePassword,
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Password changed successfully.");
+      // Refresh user profile so hasPassword updates in the store
+      // (important when an OAuth-only user sets a password for the first time)
+      await refreshUserProfile(setUser);
     },
     onError: (error) => {
       toast.error(getErrorMessage(error));

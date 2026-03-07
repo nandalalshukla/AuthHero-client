@@ -39,8 +39,10 @@ export const resetPasswordSchema = z.object({
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 
 // ─── Change Password (authenticated) ───
+// currentPassword is optional: OAuth-only users have no existing password
+// and are allowed to set one for the first time without providing a current one.
 export const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1, "Current password is required"),
+  currentPassword: z.string().optional(),
   newPassword: passwordSchema,
 });
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
@@ -52,14 +54,17 @@ export const verifyEmailSchema = z.object({
 export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
 
 // ─── Deactivate Account ───
+// password is optional: OAuth-only users are already verified via JWT and
+// have no password to confirm with.
 export const deactivateAccountSchema = z.object({
-  password: z.string().min(1, "Password is required to confirm deactivation"),
+  password: z.string().optional(),
 });
 export type DeactivateAccountInput = z.infer<typeof deactivateAccountSchema>;
 
 // ─── Delete Account ───
+// password is optional: OAuth-only users are already verified via JWT.
 export const deleteAccountSchema = z.object({
-  password: z.string().min(1, "Password is required to confirm deletion"),
+  password: z.string().optional(),
   confirmation: z.literal("DELETE MY ACCOUNT", {
     message: 'You must type "DELETE MY ACCOUNT" to confirm',
   }),
