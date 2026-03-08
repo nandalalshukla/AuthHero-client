@@ -9,52 +9,50 @@ import { usePathname } from "next/navigation";
 
 function Logo() {
   return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="shrink-0"
-    >
-      <path
-        d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"
-        fill="url(#nav-grad)"
-        fillOpacity="0.15"
-        stroke="#3ECF8E"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <rect
-        x="9.5"
-        y="10"
-        width="5"
-        height="4.5"
-        rx="0.75"
-        stroke="#3ECF8E"
-        strokeWidth="1.25"
+    <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-[#3ECF8E]/20 to-[#3ECF8E]/5 border border-[#3ECF8E]/30 shadow-[0_0_15px_rgba(62,207,142,0.15)]">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
         fill="none"
-      />
-      <path
-        d="M10.25 10V8.5a1.75 1.75 0 013.5 0V10"
-        stroke="#4EEEA0"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-      <defs>
-        <linearGradient
-          id="nav-grad"
-          x1="3"
-          y1="2"
-          x2="21"
-          y2="24"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#3ECF8E" />
-          <stop offset="1" stopColor="#287050" />
-        </linearGradient>
-      </defs>
-    </svg>
+        xmlns="http://www.w3.org/2000/svg"
+        className="shrink-0"
+      >
+        <path
+          d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"
+          fill="url(#nav-grad-new)"
+          fillOpacity="0.4"
+          stroke="#4EEEA0"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 22C6.84 20.74 3 15.55 3 13V7l9-5 9 5v6c0 2.55-3.84 7.74-9 9z"
+          stroke="url(#outline-grad)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="12" cy="11" r="3" fill="#3ECF8E" />
+        <defs>
+          <linearGradient
+            id="nav-grad-new"
+            x1="3"
+            y1="2"
+            x2="21"
+            y2="24"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#3ECF8E" />
+            <stop offset="1" stopColor="#1E5C3F" />
+          </linearGradient>
+          <linearGradient id="outline-grad" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#4EEEA0" />
+            <stop offset="1" stopColor="#4EEEA0" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
   );
 }
 
@@ -81,17 +79,17 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed left-0 top-0 w-full z-50 border-b border-white/[0.06] bg-[#1C1C1C]/80 backdrop-blur-xl transition-colors duration-300">
+    <nav className="fixed left-0 top-0 w-full z-50 border-b border-white/[0.08] bg-[#111111]/70 backdrop-blur-2xl transition-colors duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
       <div className="max-w-[1400px] mx-auto flex justify-between items-center h-16 px-4 sm:px-6 lg:px-8">
         {/* Left: Logo + nav links */}
         <div className="flex items-center gap-8">
           <Link
             href="/"
-            className="flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-[#3ECF8E] rounded-sm"
+            className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-[#3ECF8E] rounded-sm"
           >
             <Logo />
-            <span className="text-base font-semibold text-white tracking-tight">
-              authhero
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-200 to-zinc-400 tracking-tight">
+              AuthHero
             </span>
           </Link>
 

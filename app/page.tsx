@@ -13,9 +13,6 @@ import {
   FiRefreshCw,
   FiSmartphone,
   FiAlertTriangle,
-  FiServer,
-  FiTerminal,
-  FiLayers,
   FiCpu,
   FiActivity,
   FiUser,
@@ -98,15 +95,15 @@ const securityLayers = [
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#1C1C1C] overflow-hidden">
+    <div className="flex min-h-screen flex-col bg-[#0a0a0a] overflow-hidden">
 
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center px-6 pt-20 pb-0">
 
         {/* Ambient glow */}
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#3ECF8E]/[0.07] rounded-full blur-[120px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#3ECF8E]/[0.1] rounded-full blur-[120px]" />
         {/* Grid */}
-        <div className="pointer-events-none absolute inset-0 hero-grid opacity-40" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60" />
         {/* Matrix lines */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[6, 18, 33, 52, 70, 84, 94].map((left, i) => (
@@ -242,12 +239,12 @@ export default function Home() {
 
         {/* Scroll hint */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 animate-bounce-slow opacity-40">
-          <div className="w-px h-8 bg-gradient-to-b from-transparent via-[#444] to-transparent" />
+          <div className="w-px h-8 bg-linear-to-b from-transparent via-[#444] to-transparent" />
         </div>
       </section>
 
       {/* ── TRUST STRIP ── */}
-      <section className="border-y border-[#1e1e1e] bg-[#181818]">
+      <section className="border-y border-white/[0.08] bg-black/40 backdrop-blur-md z-10 relative">
         <div className="max-w-[960px] mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-4">
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#3a3a3a]">Trusted primitives, battle-tested defaults</p>
           <div className="flex flex-wrap gap-2">
@@ -355,9 +352,9 @@ export default function Home() {
 
             {/* Merge arrow */}
             <div className="flex justify-center items-center py-1 gap-2">
-              <div className="h-px flex-1 max-w-[160px] bg-gradient-to-r from-transparent to-[#2a2a2a]" />
+              <div className="h-px flex-1 max-w-[160px] bg-linear-to-r from-transparent to-[#2a2a2a]" />
               <div className="w-1.5 h-1.5 rounded-full bg-[#2a2a2a]" />
-              <div className="h-px flex-1 max-w-[160px] bg-gradient-to-l from-transparent to-[#2a2a2a]" />
+              <div className="h-px flex-1 max-w-[160px] bg-linear-to-l from-transparent to-[#2a2a2a]" />
             </div>
 
             {/* Bottom converged steps */}
@@ -429,7 +426,7 @@ export default function Home() {
                   </div>
                   <div className="h-1.5 rounded-full bg-[#1e1e1e] overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#3ECF8E]/70 to-[#3ECF8E]"
+                      className="h-full rounded-full bg-linear-to-r from-[#3ECF8E]/70 to-[#3ECF8E]"
                       style={{ width: `${layer.pct}%`, animationDelay: `${i * 0.1}s` }}
                     />
                   </div>
@@ -654,7 +651,7 @@ export default function Home() {
 
       {/* ── CTA ── */}
       <section className="relative py-20 sm:py-28 overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#3ECF8E]/[0.03] to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-transparent via-[#3ECF8E]/3 to-transparent" />
         <div className="pointer-events-none absolute inset-0 hero-grid opacity-20" />
         <div className="relative z-10 max-w-[600px] mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#3ECF8E]/20 bg-[#3ECF8E]/[0.06] px-3 py-1 text-[11px] font-medium text-[#3ECF8E] mb-6 tracking-wide uppercase">

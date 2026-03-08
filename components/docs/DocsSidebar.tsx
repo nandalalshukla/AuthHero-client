@@ -114,12 +114,12 @@ export default function DocsSidebar({
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-full w-72 lg:w-60 border-r border-white/[0.06] bg-[#1C1C1C] transition-transform duration-200 lg:sticky lg:top-16 lg:z-0 lg:h-[calc(100vh-4rem)] lg:translate-x-0 pt-16 lg:pt-0 ${
+        className={`fixed top-0 left-0 z-40 h-full w-72 lg:w-60 border-r border-white/[0.06] bg-[#111111]/95 backdrop-blur-xl lg:bg-transparent transition-transform duration-200 lg:sticky lg:top-16 lg:z-0 lg:h-[calc(100vh-4rem)] lg:self-start lg:translate-x-0 pt-16 lg:pt-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Mobile header */}
-        <div className="flex lg:hidden items-center justify-between p-4 border-b border-white/[0.06] bg-[#1C1C1C] absolute top-0 w-full h-16">
+        <div className="flex lg:hidden items-center justify-between p-4 border-b border-white/[0.06] bg-transparent absolute top-0 w-full h-16">
           <span className="text-sm font-semibold text-white">
             Documentation
           </span>
