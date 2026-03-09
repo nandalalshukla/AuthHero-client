@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose, AiFillGithub } from "react-icons/ai";
+import { FiArrowUpRight } from "react-icons/fi";
 import { useAuthStore } from "@/stores/auth.store";
 import { useLogout } from "@/hooks/useAuth";
 import ProfileDropdown from "@/components/ProfileDropdown";
@@ -9,46 +10,59 @@ import { usePathname } from "next/navigation";
 
 function Logo() {
   return (
-    <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-[#3ECF8E]/20 to-[#3ECF8E]/5 border border-[#3ECF8E]/30 shadow-[0_0_15px_rgba(62,207,142,0.15)]">
+    <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-cyan-200/30 bg-[#0c1933] shadow-[0_0_24px_rgba(34,211,238,0.22)]">
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-cyan-300/25 via-sky-300/15 to-transparent" />
       <svg
-        width="18"
-        height="18"
+        width="22"
+        height="22"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="shrink-0"
+        className="relative shrink-0"
       >
         <path
           d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"
-          fill="url(#nav-grad-new)"
-          fillOpacity="0.4"
-          stroke="#4EEEA0"
-          strokeWidth="1.5"
+          fill="url(#nav-shield-fill)"
+          fillOpacity="0.5"
+          stroke="url(#nav-shield-stroke)"
+          strokeWidth="1.35"
           strokeLinejoin="round"
         />
         <path
-          d="M12 22C6.84 20.74 3 15.55 3 13V7l9-5 9 5v6c0 2.55-3.84 7.74-9 9z"
-          stroke="url(#outline-grad)"
-          strokeWidth="1.5"
+          d="M8.5 12h7"
+          stroke="#dbeafe"
+          strokeWidth="1.25"
           strokeLinecap="round"
-          strokeLinejoin="round"
         />
-        <circle cx="12" cy="11" r="3" fill="#3ECF8E" />
+        <path
+          d="M12 8.8v6.5"
+          stroke="#dbeafe"
+          strokeWidth="1.25"
+          strokeLinecap="round"
+        />
+        <circle cx="12" cy="12" r="1.8" fill="#67e8f9" />
         <defs>
           <linearGradient
-            id="nav-grad-new"
+            id="nav-shield-fill"
             x1="3"
             y1="2"
             x2="21"
             y2="24"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#3ECF8E" />
-            <stop offset="1" stopColor="#1E5C3F" />
+            <stop stopColor="#22d3ee" />
+            <stop offset="1" stopColor="#0f766e" />
           </linearGradient>
-          <linearGradient id="outline-grad" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#4EEEA0" />
-            <stop offset="1" stopColor="#4EEEA0" stopOpacity="0" />
+          <linearGradient
+            id="nav-shield-stroke"
+            x1="12"
+            y1="2"
+            x2="12"
+            y2="22"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#a5f3fc" />
+            <stop offset="1" stopColor="#22d3ee" stopOpacity="0.25" />
           </linearGradient>
         </defs>
       </svg>
@@ -58,11 +72,11 @@ function Logo() {
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
-  const { user, isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const { mutate: logout } = useLogout();
   const pathname = usePathname();
 
-  const handleNav = () => setNav(!nav);
+  const handleNav = () => setNav((prev) => !prev);
 
   const navLinks = [
     {
@@ -79,29 +93,38 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed left-0 top-0 w-full z-50 border-b border-white/[0.08] bg-[#111111]/70 backdrop-blur-2xl transition-colors duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-      <div className="max-w-[1400px] mx-auto flex justify-between items-center h-16 px-4 sm:px-6 lg:px-8">
-        {/* Left: Logo + nav links */}
+    <nav className="fixed left-0 top-0 z-50 w-full border-b border-cyan-100/10 bg-[#081127]/72 backdrop-blur-2xl shadow-[0_10px_40px_rgba(2,8,23,0.5)]">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-cyan-200/35 to-transparent" />
+
+      <div className="mx-auto flex h-18 max-w-350 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link
             href="/"
-            className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-[#3ECF8E] rounded-sm"
+            className="group flex items-center gap-3 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
           >
             <Logo />
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-200 to-zinc-400 tracking-tight">
-              AuthHero
+            <div>
+              <span className="block bg-linear-to-r from-white via-slate-100 to-cyan-100 bg-clip-text text-lg font-semibold tracking-tight text-transparent sm:text-xl">
+                AuthHero
+              </span>
+              <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-slate-400 sm:block">
+                Secure Auth Toolkit
+              </span>
+            </div>
+            <span className="hidden rounded-full border border-cyan-200/25 bg-cyan-300/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-cyan-100/85 lg:inline-block">
+              OSS
             </span>
           </Link>
 
-          <ul className="hidden md:flex items-center gap-1">
+          <ul className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 md:flex">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`text-sm px-3 py-1.5 rounded-md transition-all duration-200 ${
+                  className={`inline-flex rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
                     link.match(pathname)
-                      ? "text-white"
-                      : "text-zinc-400 hover:text-white"
+                      ? "bg-cyan-300/15 text-cyan-100"
+                      : "text-slate-300 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -111,56 +134,56 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Right: GitHub + Auth */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden items-center gap-2 md:flex">
           <a
             href="https://github.com/nandalalshukla/authhero"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5 rounded-md"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/12 bg-white/5 text-slate-300 transition-colors hover:text-white"
+            aria-label="AuthHero GitHub"
           >
             <AiFillGithub size={18} />
           </a>
 
           {isAuthenticated ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Link
                 href="/settings"
-                className="text-sm font-medium px-4 py-1.5 rounded-md border border-[#3ECF8E] text-[#3ECF8E] hover:bg-[#3ECF8E]/10 transition-all"
+                className="inline-flex items-center rounded-xl border border-cyan-200/35 px-4 py-2 text-sm font-semibold text-cyan-100 transition-colors hover:bg-cyan-300/10"
               >
                 Dashboard
               </Link>
               <ProfileDropdown />
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5"
+                className="inline-flex rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:text-white"
               >
                 Sign in
               </Link>
               <Link
                 href="/register"
-                className="text-sm font-medium px-4 py-1.5 rounded-md border border-[#3ECF8E] text-[#3ECF8E] hover:bg-[#3ECF8E]/10 transition-all"
+                className="inline-flex items-center gap-2 rounded-xl border border-cyan-200/45 bg-linear-to-r from-cyan-300 to-sky-300 px-4 py-2 text-sm font-semibold text-slate-950 transition-transform hover:scale-[1.02]"
               >
-                Start your project
+                Start Project
+                <FiArrowUpRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           )}
         </div>
 
-        {/* Mobile hamburger */}
         <button
           onClick={handleNav}
-          className="block md:hidden z-10 text-white p-2 hover:bg-white/[0.06] rounded-lg transition-colors"
+          className="z-10 block rounded-xl border border-white/10 bg-white/5 p-2 text-white transition-colors hover:bg-white/10 md:hidden"
+          aria-label="Toggle mobile menu"
         >
           {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </button>
 
-        {/* Mobile Menu */}
         <div
-          className={`absolute top-0 left-0 w-full h-screen bg-[#1C1C1C] flex flex-col pt-20 px-6 ease-in-out duration-300 md:hidden border-r border-white/[0.06] ${
+          className={`absolute left-0 top-18 h-[calc(100vh-72px)] w-full border-t border-white/10 bg-[#081127]/95 px-6 pb-8 pt-6 backdrop-blur-2xl ease-in-out duration-300 md:hidden ${
             nav ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -174,10 +197,11 @@ const Navbar = () => {
                 <Link
                   href={link.href}
                   onClick={handleNav}
-                  className={`block px-4 py-3 rounded-lg text-[15px] font-medium transition-colors ${
+                  className={`block rounded-xl px-4 py-3 text-[15px] font-medium transition-colors ${
+                    (link.href === "/docs" && pathname.startsWith("/docs")) ||
                     pathname === link.href
-                      ? "text-[#3ECF8E] bg-[#3ECF8E]/10"
-                      : "text-zinc-300 hover:text-white hover:bg-white/[0.04]"
+                      ? "bg-cyan-300/12 text-cyan-100"
+                      : "text-slate-200 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -185,18 +209,18 @@ const Navbar = () => {
               </li>
             ))}
 
-            <div className="h-px w-full bg-white/[0.06] my-3" />
+            <div className="my-4 h-px w-full bg-white/10" />
 
             {isAuthenticated ? (
               <>
-                <li className="px-4 py-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
+                <li className="px-4 py-1 text-xs font-mono uppercase tracking-[0.2em] text-slate-500">
                   Account
                 </li>
                 <li>
                   <Link
                     href="/settings"
                     onClick={handleNav}
-                    className="block px-4 py-3 rounded-lg text-[15px] font-medium text-zinc-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                    className="block rounded-xl px-4 py-3 text-[15px] font-medium text-slate-200 transition-colors hover:bg-white/5 hover:text-white"
                   >
                     Dashboard
                   </Link>
@@ -207,7 +231,7 @@ const Navbar = () => {
                       handleNav();
                       logout();
                     }}
-                    className="w-full text-left px-4 py-3 rounded-lg text-[15px] font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                    className="w-full rounded-xl px-4 py-3 text-left text-[15px] font-medium text-rose-300 transition-colors hover:bg-rose-300/10 hover:text-rose-200"
                   >
                     Log out
                   </button>
@@ -219,7 +243,7 @@ const Navbar = () => {
                   <Link
                     href="/login"
                     onClick={handleNav}
-                    className="block px-4 py-3 rounded-lg text-[15px] font-medium text-zinc-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                    className="block rounded-xl px-4 py-3 text-[15px] font-medium text-slate-200 transition-colors hover:bg-white/5 hover:text-white"
                   >
                     Sign in
                   </Link>
@@ -228,22 +252,23 @@ const Navbar = () => {
                   <Link
                     href="/register"
                     onClick={handleNav}
-                    className="block px-4 py-3 rounded-lg text-[15px] font-medium text-[#3ECF8E] hover:bg-[#3ECF8E]/10 transition-colors"
+                    className="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-linear-to-r from-cyan-300 to-sky-300 px-4 py-3 text-[15px] font-semibold text-slate-950 transition-transform hover:scale-[1.01]"
                   >
-                    Start your project
+                    Start Project
                   </Link>
                 </li>
               </>
             )}
 
-            <div className="flex items-center gap-4 mt-6 px-4">
+            <div className="mt-6 flex items-center gap-4 px-4">
               <a
                 href="https://github.com/nandalalshukla/authhero"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-zinc-500 hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-slate-400 transition-colors hover:text-white"
               >
                 <AiFillGithub size={22} />
+                <span className="text-sm">GitHub</span>
               </a>
             </div>
           </ul>
